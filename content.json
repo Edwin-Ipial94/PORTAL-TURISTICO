@@ -56,12 +56,6 @@
   },
   "hero_slides": [
     {
-      "image": "uploads/1777858189271_WhatsApp_Image_2026-05-02_at_21.26.25__2_.jpeg",
-      "caption": "La leyenda cuenta  que en el principio del tiempo y cuando las fuerzas del bien y el mal se disputaban territorio hubo una apuesta entre Dios y el Diablo, don Dimas se detiene para decir que esta leyenda se la contó su abuelo y  prosigue, el reto dice era ver quien construía con mayor agilidad y rapidez el puente, la contienda empezó en horas de la noche, Dios alentaba a sus pupilos diciendo arrume piedra (coloque piedra) y era ya entrada la madrugada cuando el gallo cantó,  eran las cinco de la mañana y  la piedra que pende de la gran peña es la que le faltó colocar al Diablo porque el trabajo se detuvo al cantar el ave,  al verificar el trabajo de los contendiente se dieron cuenta que el bien triunfó, y la pelea concluyó pero que aún se puede ver que una gran serpiente se pasea por ese lado del río, entre risas dice que él jamás vio nada extraño pese a que a menudo llega a bañarse sea muy temprano o en la tarde.",
-      "place_index": 3,
-      "place_name": "CASA DE ADUANAS"
-    },
-    {
       "image": "uploads/1777858701255_WhatsApp_Image_2026-05-02_at_21.26.44__1_.jpeg",
       "caption": "El Cementerio de Tulcán, denominado oficialmente \"José María Azael Franco Guerrero\", es uno de los referentes paisajísticos más representativos del norte del Ecuador. Destaca por su arte topiario en cipreses, con figuras ornamentales de gran valor estético e histórico que le han dado reconocimiento nacional e internacional.",
       "place_index": 0,
@@ -102,6 +96,12 @@
       "caption": "El Teatro Lemarie es un emblemático espacio cultural de Tulcán, recordado por su historia cinematográfica y por su valor arquitectónico. Restaurado por el municipio, hoy representa un escenario importante para la vida artística y cultural de la ciudad.",
       "place_index": 5,
       "place_name": "TEATRO LEMARIE"
+    },
+    {
+      "image": "uploads/1778656247795_WhatsApp_Image_2026-05-02_at_21.26.25__3_.jpeg",
+      "caption": "Aquí se refugió varias veces, el ensayista y novelista, nacido el 13 de abril de 1832, cada vez que tuvo que dejar su casa de Ambato. El autoexilio fue la salida ante las persecuciones que sufría por parte de los entonces presidentes Gabriel García Moreno e Ignacio de Veintimilla. Montalvo, a través de sus artículos, criticó la política conservadora de ambos, y todo ello está recogido dentro del material que conforma el patrimonio que muestra el Centro. Ahora es un Gran Museo que cuenta la Historia de nuestra querida ciudad.",
+      "place_index": 3,
+      "place_name": "CASA DE ADUANAS"
     }
   ],
   "places": [
