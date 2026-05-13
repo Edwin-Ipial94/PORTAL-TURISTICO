@@ -86,12 +86,6 @@
       "place_name": "IGLESIA SAN FRANCISCO"
     },
     {
-      "image": "uploads/1777859184940_WhatsApp_Image_2026-05-02_at_21.28.30__1_.jpeg",
-      "caption": "La Iglesia Catedral de Tulcán es uno de los principales referentes religiosos y patrimoniales de la ciudad. Su valor arquitectónico, sus obras de arte sacro y su ubicación en el corazón urbano la convierten en un punto esencial para visitantes y residentes.",
-      "place_index": 7,
-      "place_name": "IGLESIA CATEDRAL"
-    },
-    {
       "image": "uploads/1777859248912_WhatsApp_Image_2026-05-02_at_21.28.13.jpeg",
       "caption": "El Teatro Lemarie es un emblemático espacio cultural de Tulcán, recordado por su historia cinematográfica y por su valor arquitectónico. Restaurado por el municipio, hoy representa un escenario importante para la vida artística y cultural de la ciudad.",
       "place_index": 5,
@@ -102,6 +96,12 @@
       "caption": "Aquí se refugió varias veces, el ensayista y novelista, nacido el 13 de abril de 1832, cada vez que tuvo que dejar su casa de Ambato. El autoexilio fue la salida ante las persecuciones que sufría por parte de los entonces presidentes Gabriel García Moreno e Ignacio de Veintimilla. Montalvo, a través de sus artículos, criticó la política conservadora de ambos, y todo ello está recogido dentro del material que conforma el patrimonio que muestra el Centro. Ahora es un Gran Museo que cuenta la Historia de nuestra querida ciudad.",
       "place_index": 3,
       "place_name": "CASA DE ADUANAS"
+    },
+    {
+      "image": "uploads/1778657053085_WhatsApp_Image_2026-05-02_at_21.28.30.jpeg",
+      "caption": "La Catedral de Tulcán es uno de los símbolos religiosos y arquitectónicos más importantes de la ciudad. Construida en el siglo XX sobre los restos de la antigua Iglesia de San Miguel, destaca por su elegante estilo modernista con detalles románticos y altares en pan de oro. En su interior reposan imágenes muy veneradas por los tulcaneños, como la Virgen de la Visitación y San Miguel Arcángel, considerados protectores y guardianes de la ciudad. Su historia, arte y espiritualidad convierten a este templo en un lugar emblemático para habitantes y visitantes.",
+      "place_index": 7,
+      "place_name": "IGLESIA CATEDRAL"
     }
   ],
   "places": [
