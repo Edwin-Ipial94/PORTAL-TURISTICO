@@ -1,0 +1,212 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turismo Tulcán</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/index.css?v=servicios40">
+</head>
+<body>
+  <div class="top-strip"><div class="container" id="topStrip"></div></div>
+
+  <header class="header">
+    <div class="container">
+      <div class="brand"><span class="brand-mark"><i class="bi bi-map"></i></span><span id="brandTxt">Turismo Tulcán</span></div>
+      <nav class="menu">
+        <a class="nav-tab nav-inicio active" href="#inicio" data-section="inicio"><i class="bi bi-house-door-fill"></i><span id="menuInicio">Inicio</span></a>
+        <a class="nav-tab nav-lugares" href="#lugares" data-section="lugares"><i class="bi bi-pin-map-fill"></i><span id="menuLugares">Atractivos</span></a>
+        <a class="nav-tab nav-rutas" href="#rutas" data-section="rutas"><i class="bi bi-sign-turn-right-fill"></i><span id="menuRutas">Rutas</span></a>
+        <a class="nav-tab nav-servicios" href="#servicios" data-section="servicios"><i class="bi bi-grid-3x3-gap-fill"></i><span id="menuServicios">Servicios</span></a>
+        <a id="adminNavLink" class="admin-link nav-admin" href="/admin.html" style="display:none;"><i class="bi bi-shield-lock-fill"></i><span id="menuAdmin">Admin</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+  <!-- Inicio -->
+  <section id="inicio" class="hero tab-section active">
+      <div class="hero-grid">
+        <div class="hero-side">
+          <div class="hero-block hero-title-block">
+            <h1 id="heroTitle">Portal Turístico</h1>
+          </div>
+          <div class="hero-block hero-text-block">
+            <p id="portalInfo" class="hero-extra" style="display:none;"></p>
+            <div class="hero-badges" id="heroBadges"></div>
+          </div>
+          <div class="hero-block hero-slide-block">
+            <span class="hero-slide-label"><i class="bi bi-camera-fill"></i>Destino turístico</span>
+            <h3 id="heroCurrentTitle" class="hero-current-title">Atractivo destacado</h3>
+            <p id="heroCurrentDesc" class="hero-current-desc">Descripción del lugar turístico seleccionado.</p>
+          </div>
+        </div>
+        <div class="carousel">
+          <div class="carousel-stage">
+            <div class="carousel-track" id="heroTrack"></div>
+            <div class="carousel-controls">
+              <button id="carPrev" class="car-btn" type="button" aria-label="Imagen anterior"><i class="bi bi-chevron-left"></i></button>
+              <div id="carDots" class="car-dots"></div>
+              <button id="carNext" class="car-btn" type="button" aria-label="Imagen siguiente"><i class="bi bi-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="section tab-section">
+      <h2><i class="bi bi-grid-1x2-fill"></i><span id="servicesTitle">Servicios turísticos en línea</span></h2>
+      <div class="services-hero">
+        <div class="services-hero-copy">
+          <h3 id="servicesHeroTitle">Consulta servicios con una lectura más limpia, moderna y directa</h3>
+          <div class="services-quick-note">
+            <i class="bi bi-compass-fill"></i>
+            <span id="servicesQuickNote">Selecciona una tarjeta inferior para abrir detalles, platos típicos o el mapa local.</span>
+          </div>
+        </div>
+      </div>
+      <div class="quick-services" id="services"></div>
+    </section>
+
+    <!-- Atractivos -->
+    <section id="lugares" class="section tab-section">
+      <h2><i class="bi bi-pin-map-fill"></i><span id="placesTitle">Atractivos turísticos destacados</span></h2>
+      <p id="placesLead" class="lead">Filtra por parroquia, categoría y jerarquía para una búsqueda precisa.</p>
+
+      <div class="kpis">
+        <button id="kpiTotalBtn" class="kpi kpi-btn" type="button" aria-label="Mostrar todos los atractivos turísticos">
+          <b id="mTotal">0</b><span>Total de atractivos turísticos</span>
+        </button>
+        <button id="kpiCultBtn" class="kpi kpi-btn" type="button" aria-label="Filtrar manifestaciones culturales">
+          <b id="mCult">0</b><span>Manifestaciones culturales</span>
+        </button>
+        <button id="kpiNatBtn" class="kpi kpi-btn" type="button" aria-label="Filtrar atractivos naturales">
+          <b id="mNat">0</b><span>Atractivos naturales</span>
+        </button>
+      </div>
+
+      <div class="filters">
+        <input id="q" type="search" placeholder="Buscar por nombre, tipo, subtipo...">
+        <select id="sParroquia"><option value="">Todas las parroquias</option></select>
+        <select id="sCategoria"><option value="">Todas las categorías</option></select>
+        <select id="sJerarquia"><option value="">Todas las jerarquías</option></select>
+      </div>
+
+      <div id="cards" class="cards"></div>
+      <div id="empty" class="empty">No hay resultados con esos filtros.</div>
+    </section>
+
+    <!-- Rutas -->
+    <section id="rutas" class="section tab-section">
+      <h2><i class="bi bi-signpost-2-fill"></i><span id="routesTitle">Rutas sugeridas de acceso</span></h2>
+      <div class="route-hero">
+        <div class="route-hero-copy">
+          <span id="routeHeroKicker" class="route-hero-kicker"><i class="bi bi-map-fill"></i>Guía de acceso</span>
+          <h3 id="routeHeroTitle">Explora rutas con una lectura clara y profesional</h3>
+          <div class="route-hero-chips">
+            <span class="route-hero-chip"><i class="bi bi-signpost-2-fill"></i><b id="routeCount">0</b> rutas</span>
+            <span class="route-hero-chip"><i class="bi bi-geo-alt-fill"></i><b id="routeParCount">0</b> parroquias</span>
+            <span class="route-hero-chip"><i class="bi bi-stars"></i>Ordenadas por visitas</span>
+          </div>
+        </div>
+      </div>
+      <div class="filters" style="grid-template-columns: 1fr 1fr;">
+        <select id="routeParroquia"><option value="">Todas las parroquias</option></select>
+        <input id="routeSearch" type="search" placeholder="Buscar ruta por nombre...">
+      </div>
+      <div id="routeGrid" class="route-grid"></div>
+    </section>
+  </main>
+
+  <div id="miniModal" class="details-modal" aria-hidden="true">
+    <div class="details-card">
+      <div class="details-head">
+        <h3 id="miniModalTitle" class="details-title">Mini ficha</h3>
+        <button id="miniModalClose" class="details-close" type="button">Cerrar</button>
+      </div>
+      <div id="miniModalBody"></div>
+    </div>
+  </div>
+
+  <div id="viewer" class="viewer">
+    <div class="viewer-card">
+      <div class="viewer-head">
+        <b id="viewerTitle">Ficha tecnica</b>
+        <div class="viewer-actions">
+          <a id="openNew" href="#" target="_blank" rel="noopener">Nueva pestaña</a>
+          <a id="downloadPdf" href="#" download>Descargar</a>
+          <button id="closeViewer" type="button">Cerrar</button>
+        </div>
+      </div>
+      <iframe id="pdfFrame" src="about:blank" title="Ficha PDF"></iframe>
+    </div>
+  </div>
+
+  <!-- Modales -->
+  <div id="routeModal" class="route-modal" aria-hidden="true">
+    <div class="route-modal-card">
+      <div class="route-modal-head">
+        <div class="title-chip">
+          <span class="route-modal-icon"><i class="bi bi-signpost-2-fill"></i></span>
+          <h3 id="routeModalTitle" class="route-modal-title">Detalle de ruta</h3>
+        </div>
+        <button id="routeModalClose" class="route-modal-close" type="button">Cerrar</button>
+      </div>
+      <div id="routeModalBody" class="meta"></div>
+    </div>
+  </div>
+  <div id="serviceModal" class="route-modal" aria-hidden="true">
+    <div class="route-modal-card">
+      <div class="route-modal-head">
+        <div class="title-chip">
+          <span class="route-modal-icon"><i class="bi bi-collection-fill"></i></span>
+          <h3 id="serviceModalTitle" class="route-modal-title">Servicio</h3>
+        </div>
+        <button id="serviceModalClose" class="route-modal-close" type="button">Cerrar</button>
+      </div>
+      <div id="serviceModalBody" class="meta"></div>
+    </div>
+  </div>
+  <div id="serviceStatsModal" class="route-modal" aria-hidden="true">
+    <div class="route-modal-card service-stats-card">
+      <div class="route-modal-head">
+        <div class="title-chip">
+          <span class="route-modal-icon"><i class="bi bi-graph-up-arrow"></i></span>
+          <h3 id="serviceStatsTitle" class="route-modal-title">Popularidad del servicio</h3>
+        </div>
+        <button id="serviceStatsClose" class="route-modal-close" type="button">Cerrar</button>
+      </div>
+      <div id="serviceStatsBody" class="meta"></div>
+    </div>
+  </div>
+  <div id="serviceItemModal" class="route-modal" aria-hidden="true">
+    <div class="route-modal-card">
+      <div class="route-modal-head">
+        <div class="title-chip">
+          <span class="route-modal-icon"><i class="bi bi-info-circle-fill"></i></span>
+          <h3 id="serviceItemTitle" class="route-modal-title">Detalle</h3>
+        </div>
+        <button id="serviceItemClose" class="route-modal-close" type="button">Cerrar</button>
+      </div>
+      <div id="serviceItemBody" class="meta"></div>
+    </div>
+  </div>
+
+  <div id="detailsModal" class="details-modal" aria-hidden="true">
+    <div class="details-card">
+      <div class="details-head">
+        <h3 id="detailsModalTitle" class="details-title">Detalle del atractivo</h3>
+        <button id="detailsModalClose" class="details-close" type="button">Cerrar</button>
+      </div>
+      <div id="detailsModalBody"></div>
+    </div>
+  </div>
+
+  <button id="backHome" class="back-home" type="button"><i class="bi bi-arrow-up-circle-fill"></i>Inicio</button>
+
+    <script src="assets/js/index.js?v=servicios40"></script>
+</body>
+</html>
+
+

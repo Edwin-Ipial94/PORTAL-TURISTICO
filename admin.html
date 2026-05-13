@@ -1,0 +1,2279 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin | Portal Turístico Tulcán</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --green: #2f9ab4;
+      --yellow: #f2c318;
+      --red: #c62828;
+      --display-font: "Georgia", "Times New Roman", serif;
+      --body-font: "Poppins", "Segoe UI", sans-serif;
+      --ink: #1f2b24;
+      --soft: #5b695f;
+      --line: #d9ddd9;
+      --paper: #fff;
+      --bg: #f4f5f3;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--body-font);
+      background:
+        radial-gradient(circle at top left, rgba(47,154,180,.12), transparent 24%),
+        radial-gradient(circle at top right, rgba(203,231,238,.18), transparent 22%),
+        linear-gradient(180deg, #f5fbfd 0%, #edf8fb 55%, #f7fcfe 100%);
+      color: var(--ink);
+    }
+
+    .top {
+      background: linear-gradient(180deg, #cfeaf2 0%, #a9d8e6 100%);
+      color: var(--green);
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(47,154,180,.28);
+      box-shadow: 0 16px 30px rgba(0,0,0,.09);
+      backdrop-filter: blur(10px);
+    }
+    .wrap { width: min(1280px, 95vw); margin: 0 auto; }
+    .top-actions { display: inline-flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .top strong {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      letter-spacing: .2px;
+      font-family: var(--display-font);
+    }
+    .top strong i {
+      width: 38px;
+      height: 38px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #5bbad0 0%, #2f9ab4 100%);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(47,154,180,.2);
+    }
+    .session-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(47,154,180,.14);
+      background: linear-gradient(180deg, #e4f7fb 0%, #d0edf4 100%);
+      color: var(--green);
+      font-weight: 800;
+      font-size: .84rem;
+      box-shadow: 0 10px 18px rgba(47,154,180,.08);
+    }
+    .top-actions a, .top-actions button {
+      border: 1px solid transparent;
+      color: var(--green);
+      border-radius: 999px;
+      padding: 11px 16px;
+      text-decoration: none;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 18px rgba(0,0,0,.08);
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    }
+    .top-actions a:hover, .top-actions button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 22px rgba(0,0,0,.1);
+      filter: saturate(1.03);
+    }
+    .top-actions a {
+      background: linear-gradient(180deg, #eaf9fc 0%, #d7eff5 100%);
+      color: #235c6a;
+      border-color: rgba(47,154,180,.34);
+    }
+    .top-actions button {
+      background: linear-gradient(180deg, #eaf9fc 0%, #d7eff5 100%);
+      color: #235c6a;
+      border-color: rgba(47,154,180,.34);
+    }
+    .top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .top a { font-size: .88rem; }
+
+    .layout {
+      margin: 18px auto 24px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 12px;
+      background: linear-gradient(180deg, rgba(225,246,252,.98) 0%, rgba(194,231,240,.98) 100%);
+      border: 1px solid rgba(123,200,218,.96);
+      border-top: 3px solid var(--green);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 20px 36px rgba(47,154,180,.18);
+      backdrop-filter: blur(8px);
+    }
+
+    .side-title {
+      margin: 0 0 12px;
+      font-size: .9rem;
+      color: #0d2730;
+      font-weight: 800;
+      letter-spacing: .15px;
+    }
+
+    .nav-list { display: grid; gap: 8px; }
+    .nav-link {
+      position: relative;
+      border: 1px solid #9fd8e1;
+      border-left: 4px solid transparent;
+      background: linear-gradient(180deg, #f1fcfe 0%, #d9f0f5 100%);
+      color: #1f5360;
+      border-radius: 10px;
+      padding: 9px 11px;
+      text-decoration: none;
+      font-size: .83rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+    .nav-link:hover {
+      border-color: #7bc8da;
+      color: var(--green);
+      background: #fff;
+      box-shadow: 0 8px 14px rgba(47,154,180,.10);
+      transform: translateX(2px);
+    }
+    .nav-link.active {
+      border-color: #2f9ab4;
+      color: var(--green);
+      background: linear-gradient(180deg, #d7eff5 0%, #bfe7ef 100%);
+      box-shadow: 0 12px 20px rgba(47,154,180,.18), inset 0 0 0 1px rgba(255,255,255,.55);
+    }
+    .nav-link.active i { color: var(--green); }
+    .nav-link.dirty::after {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      margin-left: auto;
+      background: var(--red);
+      box-shadow: 0 0 0 3px rgba(198,40,40,.18);
+      flex: 0 0 auto;
+    }
+    .nav-link[href="#sec-general"] { border-left-color: rgba(47,154,180,.22); }
+    .nav-link[href="#sec-servicios"] { border-left-color: rgba(47,154,180,.22); }
+    .nav-link[href="#sec-inicio"] { border-left-color: rgba(47,154,180,.28); }
+    .nav-link[href="#sec-listado"] { border-left-color: rgba(47,154,180,.22); }
+    .nav-link[href="#sec-editor"] { border-left-color: rgba(47,154,180,.22); }
+    .nav-link[href="#sec-galeria"] { border-left-color: rgba(47,154,180,.28); }
+    .nav-link[href="#sec-general"],
+    .nav-link[href="#sec-listado"],
+    .nav-link[href="#sec-inicio"],
+    .nav-link[href="#sec-galeria"] {
+      background: linear-gradient(180deg, #e8f8fc 0%, #cfeef5 100%);
+      color: #1f5360;
+    }
+    .nav-link[href="#sec-servicios"],
+    .nav-link[href="#sec-editor"] {
+      background: linear-gradient(180deg, #e8f8fc 0%, #cfeef5 100%);
+      color: #1f5360;
+    }
+    .nav-link[href="#sec-inicio"] i,
+    .nav-link[href="#sec-galeria"] i { color: #6f5600; }
+    .nav-link[href="#sec-servicios"] i,
+    .nav-link[href="#sec-editor"] i { color: #8f1f1f; }
+    .nav-link[href="#sec-general"]:hover,
+    .nav-link[href="#sec-general"].active,
+    .nav-link[href="#sec-listado"]:hover,
+    .nav-link[href="#sec-listado"].active,
+    .nav-link[href="#sec-inicio"]:hover,
+    .nav-link[href="#sec-inicio"].active,
+    .nav-link[href="#sec-galeria"]:hover,
+    .nav-link[href="#sec-galeria"].active {
+      border-left-color: var(--green);
+      background: linear-gradient(180deg, #d7eff5 0%, #bfe7ef 100%);
+      color: var(--green);
+    }
+    .nav-link[href="#sec-servicios"]:hover,
+    .nav-link[href="#sec-servicios"].active,
+    .nav-link[href="#sec-editor"]:hover,
+    .nav-link[href="#sec-editor"].active {
+      border-left-color: var(--green);
+      background: linear-gradient(180deg, #d7eff5 0%, #bfe7ef 100%);
+      color: var(--green);
+    }
+    .nav-link[href="#sec-inicio"].active i,
+    .nav-link[href="#sec-galeria"].active i { color: #6f5600; }
+    .nav-link[href="#sec-servicios"].active i,
+    .nav-link[href="#sec-editor"].active i { color: #8f1f1f; }
+
+    .progress-wrap {
+      border: 1px solid rgba(47,154,180,.72);
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: linear-gradient(180deg, rgba(241,251,253,.72) 0%, rgba(210,239,246,.78) 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.56), 0 10px 18px rgba(47,154,180,.08);
+    }
+
+    .progress-head {
+      color: #12303a;
+      font-size: .76rem;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.65);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #9fd8e1, #2f9ab4);
+      transition: width .25s ease;
+    }
+
+    .workspace { display: grid; gap: 18px; align-content: start; }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(245,251,253,.96) 0%, rgba(237,248,251,.98) 100%);
+      border: 1px solid #d2e8ee;
+      border-left: 4px solid var(--green);
+      border-radius: 18px;
+      padding: 22px;
+      display: none;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .22s ease, transform .22s ease;
+    }
+    .panel.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+      box-shadow: 0 18px 34px rgba(0,0,0,.08);
+    }
+    .panel.is-dirty {
+      box-shadow: 0 16px 30px rgba(0,0,0,.08), 0 0 0 2px rgba(47,154,180,.22);
+    }
+
+    .admin-loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: rgba(20, 30, 24, .45);
+      color: #fff;
+      font-weight: 800;
+      z-index: 60;
+    }
+    .admin-loader.hidden { display: none; }
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,.4);
+      border-top-color: var(--yellow);
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .toast {
+      position: fixed;
+      right: 16px;
+      top: 16px;
+      background: #f0fbfd;
+      border: 2px solid #cbe7ee;
+      border-left: 8px solid var(--green);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 800;
+      color: var(--green);
+      box-shadow: 0 10px 24px rgba(0,0,0,.14);
+      z-index: 70;
+      display: none;
+    }
+    .toast.show { display: block; animation: toastIn .35s ease; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+    #sec-general { border-left-color: var(--green); }
+    #sec-inicio { border-left-color: var(--green); }
+    #sec-listado { border-left-color: var(--green); }
+    #sec-editor { border-left-color: var(--green); }
+    #sec-galeria { border-left-color: var(--green); }
+    #sec-servicios { border-left-color: var(--green); }
+
+    .panel-head {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #bfe1ea;
+    }
+    .panel-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .3px;
+      text-transform: uppercase;
+      background: #e7f7fb;
+      color: #235c6a;
+      border: 1px solid #bfe1ea;
+    }
+    .panel h2 {
+      margin: 0;
+      font-size: 1.24rem;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--display-font);
+      font-weight: 700;
+      letter-spacing: .12px;
+    }
+
+    .muted { color: var(--soft); font-size: .87rem; margin: 0; line-height: 1.55; }
+    #sec-general .panel-head,
+    #sec-listado .panel-head,
+    #sec-inicio .panel-head,
+    #sec-galeria .panel-head {
+      background: linear-gradient(180deg, rgba(47,154,180,.12) 0%, rgba(47,154,180,.04) 100%);
+      border-radius: 14px;
+      padding: 12px 14px 14px;
+    }
+    #sec-servicios .panel-head,
+    #sec-editor .panel-head {
+      background: linear-gradient(180deg, rgba(198,40,40,.1) 0%, rgba(198,40,40,.03) 100%);
+      border-radius: 14px;
+      padding: 12px 14px 14px;
+    }
+    #sec-general .panel-kicker,
+    #sec-listado .panel-kicker,
+    #sec-inicio .panel-kicker,
+    #sec-galeria .panel-kicker {
+      background: #fff1c9;
+      color: #6f5600;
+      border-color: #e7cf83;
+    }
+    #sec-servicios .panel-kicker,
+    #sec-editor .panel-kicker {
+      background: #ffe9e9;
+      color: #8f1f1f;
+      border-color: #efc2c2;
+    }
+
+    .f { display: grid; gap: 14px; }
+    .f2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .f3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .cards { display:grid; gap:16px; }
+    .group { border:1px solid #cbe7ee; border-radius:18px; padding:20px; background:linear-gradient(180deg, rgba(245,251,253,.98) 0%, rgba(234,246,250,.98) 100%); display:grid; gap:13px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.42), 0 12px 22px rgba(0,0,0,.04); }
+    .group-title { font-weight:800; color:#173f4c; font-size:.94rem; text-transform: uppercase; letter-spacing:.2px; font-family: var(--display-font); }
+    .group-help { color:#4a6a76; font-size:.83rem; margin-top:-2px; line-height: 1.45; }
+    .svc-card { border:1px solid #cbe7ee; border-radius:16px; padding:16px; background:linear-gradient(180deg, #f5fbfd 0%, #edf8fb 100%); display:grid; gap:10px; box-shadow: 0 10px 18px rgba(0,0,0,.04); }
+    .svc-card .actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .svc-items { display:grid; gap:10px; }
+    .svc-item-row {
+      display:grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, .8fr) auto auto auto;
+      gap:10px;
+      align-items:center;
+      padding:10px;
+      border:1px solid #cbe7ee;
+      border-radius:14px;
+      background: linear-gradient(180deg, #f4fcfe 0%, #edf8fb 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.4);
+    }
+    .svc-item-row input { width: 100%; }
+    .svc-item-file { max-width: 150px; font-size: .76rem; }
+    .list { display:grid; gap:10px; }
+    .list .item {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      border:1px solid #cbe7ee;
+      border-radius:14px;
+      background:linear-gradient(180deg, rgba(255,255,255,.94) 0%, rgba(241,251,253,.98) 100%);
+      box-shadow: 0 8px 16px rgba(0,0,0,.04);
+    }
+    .list .item b { color:#173f4c; }
+    .list .item small { display:block; margin-top:3px; color:#4a6a76; }
+    .row {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .status-box {
+      border:1px solid #cbe7ee;
+      border-radius:16px;
+      padding:14px 16px;
+      min-height:64px;
+      background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(241,251,253,.98) 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.42), 0 8px 16px rgba(0,0,0,.03);
+    }
+    .status {
+      color:#2f6471;
+      line-height:1.55;
+      font-size:.92rem;
+    }
+    .assoc-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid #cbe7ee;
+      background: #f0fbfd;
+      color: #2f6471;
+      font-size: .76rem;
+      font-weight: 800;
+      width: fit-content;
+    }
+    .assoc-chip.warn {
+      background: #fff2cf;
+      border-color: #e1c56c;
+      color: #6d5600;
+    }
+    .subtabs { display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 6px; }
+    .subtab {
+      border: 1px solid #cad8ce;
+      background: #f5f9f6;
+      color: #2a4333;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: .82rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .subtab.active {
+      background: #e7f4eb;
+      border-color: #9ec5aa;
+      color: #1f4f35;
+      box-shadow: inset 0 0 0 1px rgba(31,79,53,.1);
+    }
+    .subpanel { display:none; }
+    .subpanel.active { display:grid; gap:18px; }
+    .field-grid { display:grid; gap:18px; }
+    .target-note {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #d7e1da;
+      background: linear-gradient(180deg, #f7faf7 0%, #eef5f0 100%);
+      color: #486053;
+      font-size: .84rem;
+    }
+    .pdf-focus-card {
+      border-left: 4px solid #2f9ab4;
+      background: linear-gradient(180deg, rgba(242,252,255,.98) 0%, rgba(233,247,252,.98) 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.45), 0 10px 18px rgba(47,154,180,.08);
+    }
+    .pdf-focus-card .group-title {
+      color: #1b4d5d;
+    }
+    .pdf-focus-card .group-help {
+      color: #355f6d;
+      margin-top: 0;
+    }
+    .pdf-focus-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      width: fit-content;
+      padding: 8px 11px;
+      border-radius: 999px;
+      border: 1px solid #bfe1ea;
+      background: #edf8fc;
+      color: #235c6a;
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    label {
+      font-size: .8rem;
+      color: var(--soft);
+      font-weight: 700;
+      letter-spacing: .15px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #bfd0c4;
+      border-radius: 15px;
+      padding: 12px 14px;
+      font: inherit;
+      font-size: .92rem;
+      background: linear-gradient(180deg, #fdfefd 0%, #eef5f0 100%);
+      color: var(--ink);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.7),
+        0 8px 18px rgba(31,111,62,.04);
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease, transform .18s ease;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #6da082;
+      box-shadow:
+        0 0 0 4px rgba(31,111,62,.14),
+        0 14px 26px rgba(31,111,62,.08);
+      background: #fff;
+      transform: translateY(-1px);
+    }
+    input::placeholder, textarea::placeholder {
+      color: #7d8d82;
+    }
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+    select {
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #3c6b50 50%),
+        linear-gradient(135deg, #3c6b50 50%, transparent 50%),
+        linear-gradient(180deg, #fdfefd 0%, #eef5f0 100%);
+      background-position:
+        calc(100% - 18px) calc(50% - 3px),
+        calc(100% - 12px) calc(50% - 3px),
+        0 0;
+      background-size: 6px 6px, 6px 6px, 100% 100%;
+      background-repeat: no-repeat;
+      padding-right: 36px;
+    }
+    .group input, .group textarea, .group select,
+    .svc-card input, .svc-card textarea, .svc-card select {
+      border-left: 4px solid rgba(31,111,62,.22);
+    }
+
+    .btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    button, .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 13px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .82rem;
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    }
+    button:hover, .btn:hover { transform: translateY(-1px); }
+    .list .item .btns,
+    .list .item button {
+      margin-top: 0;
+    }
+    .nav-link:focus-visible,
+    button:focus-visible,
+    .btn:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+      outline: 3px solid rgba(31,111,62,.22);
+      outline-offset: 3px;
+    }
+    .b-main { background: linear-gradient(180deg, #7bc8da 0%, #2f9ab4 100%); color: #fff; box-shadow: 0 8px 16px rgba(47,154,180,.16); }
+    .b-warn { background: linear-gradient(180deg, #aee6ef 0%, #6ebfd0 100%); color: #173f4c; box-shadow: 0 8px 16px rgba(110,191,208,.18); }
+    .b-red { background: linear-gradient(180deg, #d83a3a 0%, var(--red) 100%); color: #fff; box-shadow: 0 8px 16px rgba(198,40,40,.18); }
+    .b-soft { background: linear-gradient(180deg, #ffffff 0%, #f1fbfd 100%); color: var(--ink); border: 1px solid #cbe7ee; box-shadow: 0 6px 12px rgba(0,0,0,.04); }
+    .btn-outline { background: #fff; color: var(--green); border: 1px solid #cbe7ee; box-shadow: 0 6px 12px rgba(0,0,0,.04); }
+    .section-save {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      padding: 12px 14px 4px;
+      border-top: 1px solid rgba(47,154,180,.12);
+    }
+    .section-save .hint {
+      color: #4a6a76;
+      font-size: .79rem;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid #cbe7ee;
+    }
+    .panel.is-dirty .section-save .hint {
+      color: #235c6a;
+      background: #e7f8fc;
+      border-color: #bfe6ee;
+      font-weight: 800;
+    }
+    .section-save .b-main {
+      min-width: 196px;
+      justify-content: center;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-size: .86rem;
+      letter-spacing: .2px;
+      box-shadow:
+        0 14px 24px rgba(47,154,180,.18),
+        inset 0 1px 0 rgba(255,255,255,.22);
+      position: relative;
+      overflow: hidden;
+    }
+    .section-save .b-main::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+      transform: translateX(-100%);
+      transition: transform .35s ease;
+    }
+    .section-save .b-main:hover::before {
+      transform: translateX(100%);
+    }
+    .section-save .b-main i {
+      font-size: .95rem;
+    }
+    .panel.is-dirty .section-save .b-main {
+      background: linear-gradient(180deg, #7bc8da 0%, #2f9ab4 100%);
+      box-shadow:
+        0 16px 28px rgba(47,154,180,.22),
+        0 0 0 3px rgba(110,191,208,.14);
+    }
+    #sec-general .section-save .b-main {
+      background: linear-gradient(180deg, #7bc8da 0%, #2f9ab4 100%);
+      color: #fff;
+      box-shadow: 0 14px 24px rgba(47,154,180,.18), inset 0 1px 0 rgba(255,255,255,.22);
+    }
+    #sec-inicio .section-save .b-main,
+    #sec-galeria .section-save .b-main {
+      background: linear-gradient(180deg, #aee6ef 0%, #6ebfd0 100%);
+      color: #173f4c;
+      box-shadow: 0 14px 24px rgba(110,191,208,.22), inset 0 1px 0 rgba(255,255,255,.26);
+    }
+    #sec-servicios .section-save .b-main,
+    #sec-editor .section-save .b-main,
+    #sec-listado .section-save .b-main {
+      background: linear-gradient(180deg, #7bc8da 0%, #2f9ab4 100%);
+      color: #fff;
+      box-shadow: 0 14px 24px rgba(47,154,180,.2), inset 0 1px 0 rgba(255,255,255,.18);
+    }
+    #sec-inicio .section-save .b-main:hover,
+    #sec-galeria .section-save .b-main:hover {
+      box-shadow: 0 18px 28px rgba(110,191,208,.26), 0 0 0 3px rgba(110,191,208,.12);
+    }
+    #sec-servicios .section-save .b-main:hover,
+    #sec-editor .section-save .b-main:hover,
+    #sec-listado .section-save .b-main:hover {
+      box-shadow: 0 18px 28px rgba(47,154,180,.24), 0 0 0 3px rgba(110,191,208,.1);
+    }
+
+    .list { display: grid; gap: 10px; max-height: 420px; overflow: auto; }
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: linear-gradient(180deg, rgba(243,248,244,.98) 0%, rgba(235,243,237,.98) 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .item b { font-size: .86rem; }
+    .item small { color: var(--soft); display: block; font-size: .76rem; }
+
+    .edit-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .thumbs { display:grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 8px; margin-top: 8px; }
+    .th { border:1px solid var(--line); border-radius: 8px; overflow: hidden; background:#fff; }
+    .th img { width:100%; height:72px; object-fit: cover; display:block; }
+    .th button { width: 100%; border-radius: 0; padding: 5px; font-size: .74rem; }
+
+    .status-box {
+      background: linear-gradient(180deg, rgba(242,248,243,.98) 0%, rgba(234,242,236,.98) 100%);
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--green);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 8px;
+      min-height: 64px;
+    }
+    #sec-general,
+    #sec-listado {
+      background: linear-gradient(180deg, rgba(239,247,241,.88) 0%, rgba(245,250,246,.94) 100%);
+    }
+    #sec-inicio,
+    #sec-galeria {
+      background: linear-gradient(180deg, rgba(241,251,253,.96) 0%, rgba(226,244,249,.98) 100%);
+    }
+    #sec-servicios,
+    #sec-editor {
+      background: linear-gradient(180deg, rgba(241,251,253,.96) 0%, rgba(226,244,249,.98) 100%);
+    }
+
+    .status { font-size: .84rem; font-weight: 700; }
+    #sec-editor .panel-kicker { background: #e7f7fb; color: #235c6a; }
+    #sec-galeria .panel-kicker { background: #e7f7fb; color: #235c6a; border-color: #bfe1ea; }
+
+    .confirm-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 26, 20, .42);
+      backdrop-filter: blur(4px);
+      z-index: 90;
+    }
+    .confirm-modal.show { display: flex; }
+    .confirm-card {
+      width: min(440px, 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(47,154,180,.14);
+      background: linear-gradient(180deg, #f4fcfe 0%, #e8f6fa 100%);
+      box-shadow: 0 22px 40px rgba(0,0,0,.2);
+      overflow: hidden;
+    }
+    .confirm-head {
+      padding: 18px 20px 14px;
+      background: linear-gradient(180deg, rgba(110,191,208,.18) 0%, rgba(110,191,208,.08) 100%);
+      border-bottom: 1px solid rgba(47,154,180,.12);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .confirm-head i {
+      width: 42px;
+      height: 42px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffd95b 0%, var(--yellow) 100%);
+      color: #5d4800;
+      box-shadow: 0 10px 18px rgba(242,195,24,.18);
+      font-size: 1.15rem;
+    }
+    .confirm-head strong {
+      font-size: 1rem;
+      color: #274636;
+    }
+    .confirm-body {
+      padding: 18px 20px 8px;
+      display: grid;
+      gap: 12px;
+      color: #355345;
+      line-height: 1.6;
+    }
+    .confirm-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fff2cf;
+      border: 1px solid #e3ca74;
+      color: #705700;
+      font-weight: 800;
+      font-size: .8rem;
+    }
+    .confirm-card[data-tone="green"] .confirm-head {
+      background: linear-gradient(180deg, rgba(31,111,62,.18) 0%, rgba(31,111,62,.08) 100%);
+    }
+    .confirm-card[data-tone="green"] .confirm-head i {
+      background: linear-gradient(180deg, #2f8254 0%, #1f6f3e 100%);
+      color: #fff;
+      box-shadow: 0 10px 18px rgba(31,111,62,.18);
+    }
+    .confirm-card[data-tone="green"] .confirm-chip {
+      background: #e9f6ee;
+      border-color: #bcd8c6;
+      color: #1f6f3e;
+    }
+    .confirm-card[data-tone="yellow"] .confirm-head {
+      background: linear-gradient(180deg, rgba(242,195,24,.18) 0%, rgba(242,195,24,.08) 100%);
+    }
+    .confirm-card[data-tone="yellow"] .confirm-head i {
+      background: linear-gradient(180deg, #ffd95b 0%, var(--yellow) 100%);
+      color: #5d4800;
+      box-shadow: 0 10px 18px rgba(242,195,24,.18);
+    }
+    .confirm-card[data-tone="yellow"] .confirm-chip {
+      background: #fff2cf;
+      border-color: #e3ca74;
+      color: #705700;
+    }
+    .confirm-card[data-tone="red"] .confirm-head {
+      background: linear-gradient(180deg, rgba(198,40,40,.14) 0%, rgba(198,40,40,.06) 100%);
+    }
+    .confirm-card[data-tone="red"] .confirm-head i {
+      background: linear-gradient(180deg, #d83a3a 0%, var(--red) 100%);
+      color: #fff;
+      box-shadow: 0 10px 18px rgba(198,40,40,.18);
+    }
+    .confirm-card[data-tone="red"] .confirm-chip {
+      background: #ffe6e6;
+      border-color: #efc2c2;
+      color: #9a2424;
+    }
+    .confirm-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 8px 20px 20px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 1100px) {
+      .layout { grid-template-columns: 1fr; gap: 14px; }
+      .sidebar { position: static; }
+      .edit-layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .f2, .f3 { grid-template-columns: 1fr; }
+      .svc-item-row { grid-template-columns: 1fr; }
+      .top .wrap { align-items: stretch; }
+      .top-actions { width: 100%; justify-content: flex-start; }
+      .top-actions a, .top-actions button { width: 100%; justify-content: center; }
+      .nav-list { gap: 10px; }
+      .nav-link { padding: 11px 12px; font-size: .86rem; }
+      .group { padding: 16px; }
+      .panel { padding: 18px; }
+      .group-title { font-size: .9rem; }
+      .group-help { font-size: .82rem; }
+      .section-save { padding: 10px 0 0; }
+      .section-save { flex-direction: column; align-items: stretch; }
+      .section-save .hint { width: 100%; text-align: center; }
+      .section-save .b-main { width: 100%; }
+      .list .item { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <strong><i class="bi bi-gear-fill"></i>Administrador de Contenido Turístico</strong>
+      <div class="top-actions">
+        <span class="session-pill"><i class="bi bi-shield-check"></i>Sesión activa</span>
+        <a href="/index.html"><i class="bi bi-house-fill"></i>Ver portal</a>
+        <button id="logoutBtn" type="button"><i class="bi bi-box-arrow-right"></i>Cerrar sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <div id="adminLoader" class="admin-loader">
+      <div class="spinner"></div>
+      <div>Cargando panel...</div>
+    </div>
+    <div id="sessionToast" class="toast">Sesión iniciada correctamente.</div>
+    <div id="unsavedModal" class="confirm-modal" aria-hidden="true">
+      <div class="confirm-card" role="dialog" aria-modal="true" aria-labelledby="unsavedTitle">
+        <div class="confirm-head">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <div>
+            <strong id="unsavedTitle">Cambios sin guardar</strong>
+          </div>
+        </div>
+        <div class="confirm-body">
+          <span id="unsavedChip" class="confirm-chip"><i class="bi bi-pencil-square"></i>Sección editada</span>
+          <div id="unsavedText">Tienes cambios sin guardar en esta sección. Si continúas, podrías dejar cambios pendientes.</div>
+        </div>
+        <div class="confirm-actions">
+          <button id="unsavedCancel" type="button" class="b-soft"><i class="bi bi-x-circle"></i>Cancelar</button>
+          <button id="unsavedContinue" type="button" class="b-main"><i class="bi bi-arrow-right-circle"></i>Continuar</button>
+        </div>
+      </div>
+    </div>
+    <aside class="sidebar">
+      <p class="side-title">Secciones del panel</p>
+      <div class="progress-wrap">
+        <div class="progress-head">
+          <span>Avance del contenido</span>
+          <span id="progressTxt">0%</span>
+        </div>
+        <div class="progress-track">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+      </div>
+      <nav class="nav-list">
+        <a class="nav-link" href="#sec-general"><i class="bi bi-globe-americas"></i>General</a>
+        <a class="nav-link" href="#sec-servicios"><i class="bi bi-grid-3x3-gap-fill"></i>Servicios</a>
+        <a class="nav-link" href="#sec-inicio"><i class="bi bi-images"></i>Inicio / Carrusel</a>
+        <a class="nav-link" href="#sec-listado"><i class="bi bi-pin-map-fill"></i>Listado de lugares</a>
+        <a class="nav-link" href="#sec-editor"><i class="bi bi-pencil-square"></i>Editor de lugar</a>
+        <a class="nav-link" href="#sec-galeria"><i class="bi bi-card-image"></i>Galería del lugar</a>
+      </nav>
+      <div class="status-box" style="margin-top:10px;">
+        <div class="group-help" style="margin:0 0 6px;">Estado del sistema</div>
+        <div id="status" class="status"></div>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <section id="sec-general" class="panel">
+        <div class="panel-head">
+          <div class="panel-kicker"><i class="bi bi-globe-americas"></i>Configuración base</div>
+          <h2><i class="bi bi-globe-americas"></i>General</h2>
+          <p class="muted">Configuración global del portal: marca, textos, franja superior, badges y servicios.</p>
+        </div>
+
+        <div class="f">
+          <div class="group">
+            <div class="group-title">Identidad del portal</div>
+            <div class="group-help">Nombre, marca y textos principales.</div>
+            <label>Título de la pestaña del navegador</label><input id="site_page_title" placeholder="Portal Turístico Tulcán">
+            <label>Marca</label><input id="site_brand">
+            <label>Título principal</label><input id="site_hero_title">
+            <label>Información institucional del portal</label><textarea id="site_portal_info" placeholder="Texto sobre objetivos del portal turístico"></textarea>
+          </div>
+          <div class="group">
+            <div class="group-title">Menús y secciones</div>
+            <div class="group-help">Textos que aparecen en el menú y títulos de secciones.</div>
+            <div class="f2">
+              <div>
+                <label>Menú: Inicio</label>
+                <input id="site_menu_inicio" placeholder="Inicio">
+                <label>Menú: Servicios</label>
+                <input id="site_menu_servicios" placeholder="Servicios">
+              </div>
+              <div>
+                <label>Menú: Atractivos</label>
+                <input id="site_menu_lugares" placeholder="Atractivos">
+                <label>Menú: Rutas</label>
+                <input id="site_menu_rutas" placeholder="Rutas">
+              </div>
+              <div>
+                <label>Menú: Admin</label>
+                <input id="site_menu_admin" placeholder="Admin">
+              </div>
+            </div>
+            <div class="f2">
+              <div>
+                <label>Título sección Atractivos</label>
+                <input id="site_places_title" placeholder="Atractivos turísticos destacados">
+                <label>Descripción sección Atractivos</label>
+                <textarea id="site_places_lead" placeholder="Filtra por parroquia, categoría y jerarquía para una búsqueda precisa."></textarea>
+              </div>
+              <div>
+                <label>Título sección Rutas</label>
+                <input id="site_routes_title" placeholder="Rutas sugeridas de acceso">
+                <label>Rutas: etiqueta superior</label>
+                <input id="site_route_hero_kicker" placeholder="Guía de acceso">
+                <label>Rutas: título destacado</label>
+                <input id="site_route_hero_title" placeholder="Explora rutas con una lectura clara y profesional">
+              </div>
+            </div>
+          </div>
+          <div class="group">
+            <div class="group-title">Franja superior y badges</div>
+            <div class="group-help">Elementos destacados del inicio.</div>
+            <div class="f2">
+              <div>
+                <label>Franja superior (una línea por ítem)</label>
+                <textarea id="site_top_strip"></textarea>
+              </div>
+              <div>
+                <label>Badges del inicio (una línea por ítem)</label>
+                <textarea id="site_badges"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="section-save">
+            <span class="hint">Guarda solo esta sección.</span>
+            <button class="b-main" id="save_general" type="button"><i class="bi bi-save-fill"></i>Guardar General</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-servicios" class="panel">
+        <div class="panel-head">
+          <div class="panel-kicker"><i class="bi bi-grid-3x3-gap-fill"></i>Servicios del portal</div>
+          <h2><i class="bi bi-grid-3x3-gap-fill"></i>Servicios</h2>
+          <p class="muted">Edita los servicios visibles en el portal (Emergencias y Gastronomía).</p>
+        </div>
+        <div class="f">
+          <div class="group">
+            <div class="group-title">Cabecera premium</div>
+            <div class="group-help">Bloque visual superior de la sección Servicios.</div>
+            <label>Título principal</label>
+            <input id="site_services_hero_title" placeholder="Consulta servicios con una lectura más limpia, moderna y directa">
+            <label>Nota de acceso</label>
+            <textarea id="site_services_quick_note" placeholder="Selecciona una tarjeta inferior para abrir detalles y opciones disponibles."></textarea>
+          </div>
+          <div class="group">
+            <div class="group-title">Título de sección</div>
+            <div class="group-help">Texto visible en el portal.</div>
+            <label>Título sección Servicios</label>
+            <input id="site_services_title" placeholder="Servicios turísticos en línea">
+          </div>
+          <div class="group">
+            <div class="group-title">Listado de servicios</div>
+            <div class="group-help">Agrega y ordena tarjetas de servicios para Emergencias y Gastronomía.</div>
+            <div class="row">
+              <button id="add_service" class="b-main" type="button"><i class="bi bi-plus-circle"></i>Agregar servicio</button>
+              <small class="muted">Edita texto, ícono, teléfono y lista de ítems.</small>
+            </div>
+            <div id="servicesEditor" class="cards"></div>
+          </div>
+          <textarea id="site_services" hidden></textarea>
+          <div class="section-save">
+            <span class="hint">Guarda solo los servicios del portal.</span>
+            <button class="b-main" id="save_services" type="button"><i class="bi bi-save-fill"></i>Guardar Servicios</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-inicio" class="panel">
+        <div class="panel-head">
+          <div class="panel-kicker"><i class="bi bi-images"></i>Portada visual</div>
+          <h2><i class="bi bi-images"></i>Inicio / Carrusel principal</h2>
+          <p class="muted">Gestiona los slides del carrusel de inicio.</p>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Portada del Portal Turístico (carga rápida)</div>
+          <div class="group-help">Publica contenido para el menú Inicio del portal turístico: sube una imagen, escribe la descripción y asóciala a un lugar en un solo paso.</div>
+          <label>Lugar turístico asociado</label>
+          <select id="hero_quick_place_target"></select>
+          <div class="f2">
+            <div>
+              <label>Descripción breve del slide</label><input id="hero_quick_caption" placeholder="Descripción corta para inicio">
+            </div>
+            <div>
+              <label>Imagen del slide</label><input id="hero_quick_file" type="file" accept="image/*">
+            </div>
+          </div>
+          <div class="btns">
+            <button class="b-main" id="hero_quick_add_btn"><i class="bi bi-cloud-upload"></i>Subir al carrusel</button>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Slides actuales</div>
+          <div class="group-help">Edita o elimina cada slide.</div>
+          <div id="hero_slides_list" class="list"></div>
+        </div>
+
+        <div class="section-save">
+          <span class="hint">Guarda solo el carrusel e inicio.</span>
+          <button class="b-main" id="save_inicio" type="button"><i class="bi bi-save-fill"></i>Guardar Inicio</button>
+        </div>
+      </section>
+
+      <section id="sec-listado" class="panel">
+        <div class="panel-head">
+          <div class="panel-kicker"><i class="bi bi-pin-map-fill"></i>Gestión de lugares</div>
+          <h2><i class="bi bi-pin-map-fill"></i>Listado de lugares turísticos</h2>
+          <p class="muted">Selecciona un lugar para editarlo o crea uno nuevo.</p>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Acciones</div>
+          <div class="group-help">Crea un nuevo lugar o selecciona uno existente.</div>
+          <div class="btns">
+            <button class="b-main" id="new_place"><i class="bi bi-plus-square"></i>Nuevo lugar</button>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Listado</div>
+          <div class="group-help">Busca y selecciona el lugar a editar.</div>
+          <div id="places_list" class="list" style="margin-top:10px;"></div>
+        </div>
+      </section>
+
+      <section id="sec-editor" class="panel">
+        <div class="panel-head">
+          <div class="panel-kicker"><i class="bi bi-pencil-square"></i>Edición de contenido</div>
+          <h2><i class="bi bi-pencil-square"></i>Editor de lugar</h2>
+          <p class="muted">Actualiza toda la información del atractivo seleccionado.</p>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Lugar a editar</div>
+          <div class="group-help">Selecciona aquí el lugar turístico que quieres editar.</div>
+          <select id="editor_place_target"></select>
+        </div>
+
+        <div class="subtabs" id="editorTabs">
+          <button class="subtab active" type="button" data-editor-tab="datos">Datos generales</button>
+          <button class="subtab" type="button" data-editor-tab="operacion">Operación</button>
+          <button class="subtab" type="button" data-editor-tab="referencia">Referencia</button>
+        </div>
+
+        <div class="edit-layout">
+          <div class="subpanel active" data-editor-panel="datos">
+            <div class="group">
+              <div class="group-title">Datos generales</div>
+              <div class="group-help">Identificación y clasificación del lugar.</div>
+              <div class="f3">
+                <div><label>Código (num_atr)</label><input id="p_num_atr"></div>
+                <div><label>Nombre</label><input id="p_nombre"></div>
+                <div><label>Provincia</label><input id="p_provincia"></div>
+                <div><label>Cantón</label><input id="p_canton"></div>
+                <div><label>Parroquia</label><input id="p_parroquia"></div>
+                <div><label>Categoría</label><input id="p_categoria"></div>
+                <div><label>Tipo</label><input id="p_tipo"></div>
+                <div><label>Subtipo</label><input id="p_subtipo"></div>
+                <div><label>Jerarquía</label><input id="p_jerarquia"></div>
+                <div><label>Estado</label><input id="p_estado"></div>
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="group-title">Archivos y tiempos</div>
+              <div class="group-help">PDF, tiempos y coordenadas del atractivo.</div>
+              <div class="f3">
+                <div><label>PDF</label><input id="p_pdf"></div>
+                <div><label>Duración</label><input id="p_duracion"></div>
+                <div><label>Distancia (km)</label><input id="p_distancia" placeholder="Ej: 0.8 km"></div>
+                <div><label>Tiempo en auto (min)</label><input id="p_tiempo_auto" placeholder="Ej: 10 min"></div>
+                <div><label>Coordenadas (Lat, Long)</label><input id="p_coordenadas" placeholder="Ej: 0.814323, -77.715513"></div>
+                <div><label>Foto mini ficha (ruta)</label><input id="p_mini_foto" placeholder="uploads/mi-foto.jpg"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="subpanel" data-editor-panel="operacion">
+            <div class="group">
+              <div class="group-title">Información operativa</div>
+              <div class="group-help">Acceso, costos, horarios y servicios disponibles.</div>
+              <div class="f">
+                <label>Ruta de acceso</label><textarea id="p_ruta"></textarea>
+                <label>Horario</label><textarea id="p_horario"></textarea>
+                <label>Costo</label><textarea id="p_costo"></textarea>
+                <label>Servicios</label><textarea id="p_servicios"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="subpanel" data-editor-panel="referencia">
+            <div class="group">
+              <div class="group-title">Recomendaciones y referencia</div>
+              <div class="group-help">Reseña, ubicación exacta, mejor visita y contacto local.</div>
+              <div class="f">
+                <label>Recomendaciones</label><textarea id="p_recomendaciones"></textarea>
+                <label>Reseña breve (desde ficha PDF)</label><textarea id="p_resena"></textarea>
+                <label>Ubicación exacta / referencia</label><textarea id="p_ubicacion_ref"></textarea>
+                <label>Mejor hora o temporada de visita</label><textarea id="p_mejor_visita"></textarea>
+                <label>Contacto o referencia local</label><textarea id="p_contacto"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-save">
+          <span class="hint">Guarda solo el lugar que estás editando.</span>
+          <button class="b-main" id="save_editor" type="button"><i class="bi bi-save-fill"></i>Guardar Lugar</button>
+        </div>
+      </section>
+
+      <section id="sec-galeria" class="panel">
+        <div class="panel-head">
+          <div class="panel-kicker"><i class="bi bi-card-image"></i>Archivos del lugar</div>
+          <h2><i class="bi bi-card-image"></i>Galería del lugar seleccionado</h2>
+          <p class="muted">Carga varias fotos para el carrusel de cada tarjeta del portal.</p>
+        </div>
+
+        <div class="target-note">
+          Selecciona manualmente el lugar de destino antes de subir fotos o PDF. La subida ya no dependerá solo del último lugar editado.
+        </div>
+
+        <div class="group">
+          <div class="group-title">Subir imágenes</div>
+          <div class="group-help">Selecciona varias fotos para el carrusel del lugar.</div>
+          <label>Lugar de destino para fotos</label>
+          <select id="gallery_place_target"></select>
+          <div class="btns">
+            <input id="place_upload" type="file" multiple accept="image/*">
+            <button class="b-warn" id="place_upload_btn"><i class="bi bi-cloud-upload"></i>Subir fotos del lugar</button>
+          </div>
+        </div>
+        <div class="group pdf-focus-card">
+          <div class="group-title">PDF del lugar</div>
+          <div class="group-help">Este es el único punto para subir y asignar PDF del lugar.</div>
+          <span class="pdf-focus-note"><i class="bi bi-file-earmark-pdf-fill"></i>Gestión central de PDF</span>
+          <label>Lugar de destino para PDF</label>
+          <select id="pdf_place_target"></select>
+          <div class="btns">
+            <input id="pdf_upload" type="file" accept=".pdf,application/pdf">
+            <button class="b-soft" id="pdf_upload_btn"><i class="bi bi-file-earmark-arrow-up-fill"></i>Subir PDF y asignar</button>
+          </div>
+        </div>
+        <div class="group">
+          <div class="group-title">Eliminar lugar</div>
+          <div class="group-help">Acción irreversible. Solo si es necesario.</div>
+          <div class="btns">
+            <button class="b-red" id="delete_place"><i class="bi bi-trash-fill"></i>Eliminar lugar</button>
+          </div>
+        </div>
+        <div class="group">
+          <div class="group-title">Fotos actuales</div>
+          <div class="group-help">Imágenes cargadas del lugar.</div>
+          <div id="place_images" class="thumbs"></div>
+        </div>
+        <div class="section-save">
+          <span class="hint">Guarda fotos y PDF ya asignados.</span>
+          <button class="b-main" id="save_galeria" type="button"><i class="bi bi-save-fill"></i>Guardar Galería</button>
+        </div>
+      </section>
+
+    </section>
+  </main>
+
+  <script>
+    const state = { data: { site: {}, hero_slides: [], places: [] }, currentPlace: -1 };
+    let lastSavedData = { site: {}, hero_slides: [], places: [] };
+
+    const q = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+    const servicesEditor = q("servicesEditor");
+    const addServiceBtn = q("add_service");
+    const heroQuickPlaceTarget = q("hero_quick_place_target");
+    const editorPlaceTarget = q("editor_place_target");
+    const galleryPlaceTarget = q("gallery_place_target");
+    const pdfPlaceTarget = q("pdf_place_target");
+    const qa = (sel) => [...document.querySelectorAll(sel)];
+    const statusEl = q("status");
+    const progressBar = q("progressBar");
+    const progressTxt = q("progressTxt");
+    const sideLinks = qa(".nav-link");
+    const sectionEls = sideLinks
+      .map((a) => document.querySelector(a.getAttribute("href")))
+      .filter(Boolean);
+    const dirtySections = new Set();
+    const unsavedModal = q("unsavedModal");
+    const unsavedCancel = q("unsavedCancel");
+    const unsavedContinue = q("unsavedContinue");
+    const unsavedChip = q("unsavedChip");
+    const unsavedText = q("unsavedText");
+    const unsavedCard = unsavedModal?.querySelector(".confirm-card");
+
+    const siteFields = {
+      page_title: q("site_page_title"),
+      brand: q("site_brand"),
+      hero_title: q("site_hero_title"),
+      portal_info: q("site_portal_info"),
+      menu_inicio: q("site_menu_inicio"),
+      menu_servicios: q("site_menu_servicios"),
+      menu_lugares: q("site_menu_lugares"),
+      menu_rutas: q("site_menu_rutas"),
+      menu_admin: q("site_menu_admin"),
+      services_hero_title: q("site_services_hero_title"),
+      services_quick_note: q("site_services_quick_note"),
+      services_title: q("site_services_title"),
+      places_title: q("site_places_title"),
+      places_lead: q("site_places_lead"),
+      routes_title: q("site_routes_title"),
+      route_hero_kicker: q("site_route_hero_kicker"),
+      route_hero_title: q("site_route_hero_title"),
+      top_strip: q("site_top_strip"),
+      badges: q("site_badges"),
+      services: q("site_services"),
+    };
+
+    let servicesDraft = [];
+
+    function cloneData(data) {
+      return JSON.parse(JSON.stringify(data || {}));
+    }
+
+    function normalizeService(s = {}) {
+      return {
+        title: s.title || "",
+        modal_title: s.modal_title || "",
+        text: s.text || "",
+        icon: s.icon || "bi-grid",
+        link: s.link || "#",
+        mode: s.mode || "normal",
+        items: Array.isArray(s.items)
+          ? s.items.map((item) => {
+              if (typeof item === "string") return item;
+              if (item && typeof item === "object") {
+                const title = String(item.title || "").trim();
+                const detail = String(item.detail || "").trim();
+                const media = String(item.phone || item.image || "").trim();
+                return [title, detail, media].filter(Boolean).join(" | ");
+              }
+              return String(item || "");
+            }).filter(Boolean)
+          : []
+      };
+    }
+
+    function parseServiceItemLine(line = "") {
+      const raw = String(line || "").trim();
+      if (!raw) return { title: "", detail: "", phone: "" };
+      const pipe = raw.split("|").map((s) => s.trim());
+      if (pipe.length >= 3) return { title: pipe[0], detail: pipe[1], phone: pipe.slice(2).join(" | ") };
+      if (pipe.length === 2) return { title: pipe[0], detail: pipe[1], phone: "" };
+      const dash = raw.split(" - ");
+      if (dash.length >= 3) return { title: dash[0].trim(), detail: dash[1].trim(), phone: dash.slice(2).join(" - ").trim() };
+      if (dash.length === 2) return { title: dash[0].trim(), detail: dash[1].trim(), phone: "" };
+      return { title: raw, detail: "", phone: "" };
+    }
+
+    function serviceItemLine(item = "") {
+      const parsed = parseServiceItemLine(item);
+      const parts = [parsed.title, parsed.detail, parsed.phone].filter(Boolean);
+      return parts.join(" | ");
+    }
+
+    function syncServiceItemsFromCard(card, idx) {
+      if (!card || !servicesDraft[idx]) return;
+      const rows = [...card.querySelectorAll("[data-svc-item-row]")];
+      servicesDraft[idx].items = rows.map((row) => {
+        const titleInput = row.querySelector('[data-svc-item-field="title"]');
+        const detailInput = row.querySelector('[data-svc-item-field="detail"]');
+        const phoneInput = row.querySelector('[data-svc-item-field="phone"]');
+        const title = String(titleInput?.value || "").trim();
+        const detail = String(detailInput?.value || "").trim();
+        const phone = String(phoneInput?.value || "").trim();
+        return [title, detail, phone].filter(Boolean).join(" | ");
+      }).filter(Boolean);
+    }
+
+    function syncServicesTextarea() {
+      if (!servicesEditor) return;
+      siteFields.services.value = JSON.stringify(servicesDraft, null, 2);
+    }
+
+    function renderServicesEditor() {
+      if (!servicesEditor) return;
+      servicesEditor.innerHTML = servicesDraft.map((s, i) => {
+        const serviceTitleKey = String(s.title || "").toLowerCase();
+        const isFoodService = serviceTitleKey.includes("gastr");
+        const itemsHelp = isFoodService
+          ? "Para Gastronomía: 1) nombre del plato, 2) descripción del plato, 3) ruta de imagen o súbela con el botón."
+          : "Cada fila es un servicio o contacto. Usa el tercer campo para teléfono o enlace corto.";
+        const titlePlaceholder = isFoodService ? "Nombre del plato típico" : "Título del ítem";
+        const detailPlaceholder = isFoodService ? "Descripción breve del plato" : "Detalle opcional";
+        const mediaPlaceholder = isFoodService ? "Ruta de imagen (uploads/...)" : "Teléfono o imagen";
+        return `
+        <div class="svc-card" data-svc-idx="${i}">
+          <div class="f2">
+            <div>
+              <label>Título</label>
+              <input data-field="title" value="${esc(s.title)}" placeholder="Ej: Emergencias">
+            </div>
+            <div>
+              <label>Ícono (Bootstrap Icons)</label>
+              <input data-field="icon" value="${esc(s.icon)}" placeholder="bi-telephone-fill">
+            </div>
+          </div>
+          <div class="f2">
+            <div>
+              <label>Descripción corta</label>
+              <input data-field="text" value="${esc(s.text)}" placeholder="Texto breve del servicio">
+            </div>
+            <div>
+              <label>Modo</label>
+              <select data-field="mode">
+                <option value="normal"${s.mode === "normal" ? " selected" : ""}>Normal</option>
+              </select>
+            </div>
+          </div>
+          <div class="f">
+            <label>Título de la ficha (modal)</label>
+            <input data-field="modal_title" value="${esc(s.modal_title)}" placeholder="Ej: Consulta el detalle de cada servicio">
+            <div class="group-help">Este título se muestra al abrir cada servicio en el portal.</div>
+          </div>
+          <div>
+            <div class="f2" style="align-items:center; margin-bottom:6px;">
+              <label style="margin:0;">Ítems del servicio</label>
+              <button class="b-yellow" type="button" data-svc-item-add="${i}"><i class="bi bi-plus-circle-fill"></i>Agregar nuevo</button>
+            </div>
+            <div class="group-help">${itemsHelp}</div>
+            <div class="svc-items" data-svc-items="${i}">
+              ${(s.items || []).map((item, idx) => {
+                const parsed = parseServiceItemLine(item);
+                return `
+                  <div class="svc-item-row" data-svc-item-row="${idx}">
+                    <input data-svc-item-field="title" data-svc-item-idx="${idx}" value="${esc(parsed.title)}" placeholder="${titlePlaceholder}">
+                    <input data-svc-item-field="detail" data-svc-item-idx="${idx}" value="${esc(parsed.detail)}" placeholder="${detailPlaceholder}">
+                    <input data-svc-item-field="phone" data-svc-item-idx="${idx}" value="${esc(parsed.phone)}" placeholder="${mediaPlaceholder}">
+                    <input class="svc-item-file" type="file" accept="image/*" data-svc-item-file="${idx}">
+                    <button class="b-soft" type="button" data-svc-item-upload="${idx}"><i class="bi bi-cloud-upload"></i></button>
+                    <button class="b-red" type="button" data-svc-item-remove="${idx}"><i class="bi bi-trash-fill"></i></button>
+                  </div>
+                `;
+              }).join("")}
+              ${!(s.items || []).length ? `<div class="group-help">No hay ítems todavía. Usa <b>Agregar nuevo</b> para empezar.</div>` : ""}
+            </div>
+          </div>
+          <div class="actions">
+            <button class="b-red" data-action="remove" type="button"><i class="bi bi-trash-fill"></i>Eliminar</button>
+          </div>
+        </div>
+      `;
+      }).join("");
+    }
+
+    function fillGeneralSection(site = {}) {
+      siteFields.page_title.value = site.page_title || "";
+      siteFields.brand.value = site.brand || "";
+      siteFields.hero_title.value = site.hero_title || "";
+      siteFields.portal_info.value = site.portal_info || "";
+      siteFields.menu_inicio.value = site.menu_inicio || "";
+      siteFields.menu_servicios.value = site.menu_servicios || "";
+      siteFields.menu_lugares.value = site.menu_lugares || "";
+      siteFields.menu_rutas.value = site.menu_rutas || "";
+      siteFields.menu_admin.value = site.menu_admin || "";
+      siteFields.places_title.value = site.places_title || "";
+      siteFields.places_lead.value = site.places_lead || "";
+      siteFields.routes_title.value = site.routes_title || "";
+      siteFields.route_hero_kicker.value = site.route_hero_kicker || "";
+      siteFields.route_hero_title.value = site.route_hero_title || "";
+      siteFields.top_strip.value = (site.top_strip || []).join("\n");
+      siteFields.badges.value = (site.badges || []).join("\n");
+    }
+
+    function fillServicesSection(site = {}) {
+      siteFields.services_hero_title.value = site.services_hero_title || "";
+      siteFields.services_quick_note.value = site.services_quick_note || "";
+      siteFields.services_title.value = site.services_title || "";
+      servicesDraft = (site.services || [])
+        .map(normalizeService)
+        .filter((svc) => {
+          const t = String(svc.title || "").toLowerCase();
+          return !(svc.mode === "mapa" || t.includes("mapa"));
+        });
+      renderServicesEditor();
+      syncServicesTextarea();
+    }
+
+    async function apiGetContent() {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 6000);
+      try {
+        const r = await fetch("/api/content", { cache: "no-store", signal: controller.signal });
+        if (!r.ok) throw new Error("No se pudo cargar el contenido.");
+        const payload = await r.json();
+        return {
+          site: payload && typeof payload.site === "object" ? payload.site : {},
+          hero_slides: Array.isArray(payload?.hero_slides) ? payload.hero_slides : [],
+          places: Array.isArray(payload?.places) ? payload.places : [],
+        };
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    async function apiSaveContent(payload) {
+      const r = await fetch("/api/content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      return r.json();
+    }
+
+    function getSectionFromNode(node) {
+      const panel = node?.closest?.(".panel");
+      return panel?.id || null;
+    }
+
+    function sectionLabel(sectionId) {
+      const labels = {
+        "sec-general": "General",
+        "sec-servicios": "Servicios",
+        "sec-inicio": "Inicio",
+        "sec-listado": "Listado",
+        "sec-editor": "Lugar",
+        "sec-galeria": "Galería",
+      };
+      return labels[sectionId] || "Sección";
+    }
+
+    function sectionTone(sectionId) {
+      if (["sec-servicios", "sec-editor", "sec-listado"].includes(sectionId)) return "red";
+      if (["sec-inicio", "sec-galeria"].includes(sectionId)) return "yellow";
+      return "green";
+    }
+
+    function refreshDirtyUI() {
+      sideLinks.forEach((link) => {
+        const sectionId = (link.getAttribute("href") || "").replace("#", "");
+        link.classList.toggle("dirty", dirtySections.has(sectionId));
+      });
+      sectionEls.forEach((sec) => {
+        sec.classList.toggle("is-dirty", dirtySections.has(sec.id));
+        const hint = sec.querySelector(".section-save .hint");
+        if (!hint) return;
+        hint.textContent = dirtySections.has(sec.id)
+          ? `${sectionLabel(sec.id)} tiene cambios sin guardar.`
+          : hint.getAttribute("data-base-hint") || "Guarda solo esta sección.";
+      });
+    }
+
+    function markSectionDirty(sectionId, dirty = true) {
+      if (!sectionId) return;
+      if (dirty) dirtySections.add(sectionId);
+      else dirtySections.delete(sectionId);
+      refreshDirtyUI();
+    }
+
+    function clearDirtySections(sectionIds = []) {
+      if (sectionIds.includes("all")) {
+        dirtySections.clear();
+      } else {
+        sectionIds.forEach((id) => dirtySections.delete(id));
+      }
+      refreshDirtyUI();
+    }
+
+    function restoreCurrentPlaceForm() {
+      if (!state.data.places.length) {
+        placeFields.forEach((k) => placeInput(k).value = "");
+        state.currentPlace = -1;
+        renderPlaceImages();
+        return;
+      }
+      if (state.currentPlace < 0 || !state.data.places[state.currentPlace]) {
+        state.currentPlace = 0;
+      }
+      const p = state.data.places[state.currentPlace] || {};
+      placeFields.forEach((k) => placeInput(k).value = p[k] || "");
+      renderPlaceImages();
+    }
+
+    function discardSectionChanges(sectionId) {
+      if (!sectionId) return;
+      const savedSite = cloneData(lastSavedData.site || {});
+
+      if (sectionId === "sec-general") {
+        fillGeneralSection(savedSite);
+      } else if (sectionId === "sec-servicios") {
+        fillServicesSection(savedSite);
+      } else if (sectionId === "sec-inicio") {
+        state.data.hero_slides = cloneData(lastSavedData.hero_slides || []);
+        if (q("hero_quick_caption")) q("hero_quick_caption").value = "";
+        if (q("hero_quick_file")) q("hero_quick_file").value = "";
+        if (heroQuickPlaceTarget) heroQuickPlaceTarget.value = "";
+        renderHeroSlides();
+      } else if (["sec-listado", "sec-editor", "sec-galeria"].includes(sectionId)) {
+        state.data.places = cloneData(lastSavedData.places || []);
+        renderPlacesList();
+        restoreCurrentPlaceForm();
+        if (galleryPlaceTarget && state.currentPlace >= 0) galleryPlaceTarget.value = String(state.currentPlace);
+        if (pdfPlaceTarget && state.currentPlace >= 0) pdfPlaceTarget.value = String(state.currentPlace);
+        q("place_upload").value = "";
+        q("pdf_upload").value = "";
+      }
+
+      clearDirtySections([sectionId]);
+      if (["sec-editor", "sec-galeria"].includes(sectionId)) {
+        clearDirtySections(["sec-editor", "sec-galeria", "sec-listado"]);
+      }
+      if (sectionId === "sec-listado") {
+        clearDirtySections(["sec-listado", "sec-editor", "sec-galeria"]);
+      }
+      refreshProgress();
+      setStatus(`${sectionLabel(sectionId)} volvió al último guardado.`);
+    }
+
+    function currentSectionId() {
+      const active = sectionEls.find((sec) => sec.classList.contains("active"));
+      return active?.id || "sec-general";
+    }
+
+    function openUnsavedModal(sectionId) {
+      if (!unsavedModal || !unsavedCancel || !unsavedContinue) return Promise.resolve(true);
+      if (unsavedCard) {
+        unsavedCard.setAttribute("data-tone", sectionTone(sectionId));
+      }
+      if (unsavedChip) {
+        unsavedChip.innerHTML = `<i class="bi bi-pencil-square"></i>${sectionLabel(sectionId)}`;
+      }
+      if (unsavedText) {
+        unsavedText.textContent = `Tienes cambios sin guardar en ${sectionLabel(sectionId)}. Puedes cancelar para revisar o continuar y cambiar de sección manteniendo esos cambios pendientes.`;
+      }
+      unsavedModal.classList.add("show");
+      unsavedModal.setAttribute("aria-hidden", "false");
+      return new Promise((resolve) => {
+        const close = (result) => {
+          unsavedModal.classList.remove("show");
+          unsavedModal.setAttribute("aria-hidden", "true");
+          unsavedCancel.removeEventListener("click", onCancel);
+          unsavedContinue.removeEventListener("click", onContinue);
+          unsavedModal.removeEventListener("click", onBackdrop);
+          document.removeEventListener("keydown", onKeydown);
+          resolve(result);
+        };
+        const onCancel = () => close(false);
+        const onContinue = () => close(true);
+        const onBackdrop = (e) => { if (e.target === unsavedModal) close(false); };
+        const onKeydown = (e) => {
+          if (e.key === "Escape") close(false);
+          if (e.key === "Enter") close(true);
+        };
+        unsavedCancel.addEventListener("click", onCancel);
+        unsavedContinue.addEventListener("click", onContinue);
+        unsavedModal.addEventListener("click", onBackdrop);
+        document.addEventListener("keydown", onKeydown);
+      });
+    }
+
+    async function persistSection(sectionName, sectionIds = []) {
+      try {
+        saveCurrentPlaceFromForm();
+        saveFormToSite();
+        const r = await apiSaveContent(state.data);
+        if (r.ok) {
+          lastSavedData = cloneData(state.data);
+          setStatus(`${sectionName} guardado correctamente.`);
+          renderPlacesList();
+          refreshProgress();
+          clearDirtySections(sectionIds);
+        } else {
+          setStatus(`Error al guardar ${sectionName.toLowerCase()}: ` + (r.error || "desconocido"), false);
+        }
+      } catch (e) {
+        setStatus(`Error al guardar ${sectionName.toLowerCase()}: ` + e.message, false);
+      }
+    }
+
+    async function uploadFile(file) {
+      const fd = new FormData();
+      fd.append("file", file);
+      const r = await fetch("/api/upload-image", { method: "POST", body: fd });
+      return r.json();
+    }
+
+    function setStatus(msg, ok = true) {
+      statusEl.textContent = msg;
+      statusEl.style.color = ok ? "#1f6f3e" : "#c62828";
+    }
+
+    function completionPercent() {
+      const site = state.data.site || {};
+      const places = state.data.places || [];
+      const place = state.currentPlace >= 0 ? places[state.currentPlace] : null;
+
+      // Mide avance real con campos clave (no opcionales) para evitar quedarse en 95%.
+      const siteChecks = [
+        site.page_title,
+        site.brand,
+        site.hero_title,
+        site.portal_info,
+        (site.top_strip || []).length,
+        (state.data.hero_slides || []).length
+      ];
+      const siteDone = siteChecks.filter(Boolean).length;
+
+      const placeChecks = place ? [
+        place.nombre,
+        place.provincia,
+        place.canton,
+        place.parroquia,
+        place.categoria,
+        place.tipo,
+        place.subtipo,
+        place.jerarquia
+      ] : [];
+      const placeDone = placeChecks.filter(Boolean).length;
+
+      const total = siteChecks.length + (placeChecks.length || 1);
+      const done = siteDone + placeDone;
+      return Math.max(0, Math.min(100, Math.round((done / total) * 100)));
+    }
+
+    function refreshProgress() {
+      const pct = completionPercent();
+      progressBar.style.width = `${pct}%`;
+      progressTxt.textContent = `${pct}%`;
+    }
+
+    function setActiveSection(hash, pushHash = true) {
+      const safeHash = sectionEls.some((sec) => `#${sec.id}` === hash) ? hash : "#sec-general";
+      sideLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === safeHash));
+      sectionEls.forEach((sec) => sec.classList.toggle("active", `#${sec.id}` === safeHash));
+      if (pushHash && location.hash !== safeHash) history.replaceState(null, "", safeHash);
+    }
+
+    function initSidebarActiveTracking() {
+      sideLinks.forEach((a) => {
+        a.addEventListener("click", async (e) => {
+          e.preventDefault();
+          const targetHash = a.getAttribute("href");
+          const activeId = currentSectionId();
+          if (targetHash === `#${activeId}`) return;
+          if (dirtySections.has(activeId)) {
+            const ok = await openUnsavedModal(activeId);
+            if (!ok) return;
+            discardSectionChanges(activeId);
+          }
+          setActiveSection(targetHash);
+        });
+      });
+      setActiveSection(location.hash || "#sec-general", false);
+    }
+
+    function linesToArray(txt) {
+      return txt.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+    }
+
+    function loadSiteToForm() {
+      const s = state.data.site || {};
+      fillGeneralSection(s);
+      fillServicesSection(s);
+    }
+
+    function saveFormToSite() {
+      if (servicesEditor) syncServicesTextarea();
+      const services = servicesDraft.map(normalizeService);
+
+      state.data.site = {
+        page_title: siteFields.page_title.value.trim(),
+        brand: siteFields.brand.value.trim(),
+        hero_title: siteFields.hero_title.value.trim(),
+        portal_info: siteFields.portal_info.value.trim(),
+        menu_inicio: siteFields.menu_inicio.value.trim(),
+        menu_servicios: siteFields.menu_servicios.value.trim(),
+        menu_lugares: siteFields.menu_lugares.value.trim(),
+        menu_rutas: siteFields.menu_rutas.value.trim(),
+        menu_admin: siteFields.menu_admin.value.trim(),
+        services_hero_title: siteFields.services_hero_title.value.trim(),
+        services_quick_note: siteFields.services_quick_note.value.trim(),
+        services_title: siteFields.services_title.value.trim(),
+        places_title: siteFields.places_title.value.trim(),
+        places_lead: siteFields.places_lead.value.trim(),
+        routes_title: siteFields.routes_title.value.trim(),
+        route_hero_kicker: siteFields.route_hero_kicker.value.trim(),
+        route_hero_title: siteFields.route_hero_title.value.trim(),
+        top_strip: linesToArray(siteFields.top_strip.value),
+        badges: linesToArray(siteFields.badges.value),
+        services,
+      };
+    }
+
+    function renderHeroSlides() {
+      const box = q("hero_slides_list");
+      box.innerHTML = (state.data.hero_slides || []).map((s, i) => `
+        <div class="item">
+          <div>
+            <b>${esc(s.caption || "(sin caption)")}</b>
+            <small>${esc(s.image || "")}</small>
+            <span class="assoc-chip ${s.place_name ? "" : "warn"}">
+              <i class="bi ${s.place_name ? "bi-geo-alt-fill" : "bi-exclamation-triangle-fill"}"></i>
+              ${s.place_name ? `Lugar asociado: ${esc(s.place_name)}` : "Lugar asociado: no definido"}
+            </span>
+          </div>
+          <div class="btns" style="margin:0;">
+            <button class="b-soft" onclick="editHeroSlide(${i})">Editar</button>
+            <button class="b-red" onclick="removeHeroSlide(${i})">Eliminar</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    window.editHeroSlide = (idx) => {
+      const s = state.data.hero_slides[idx];
+      if (!s) return;
+      const quickCaption = q("hero_quick_caption");
+      const quickPlace = q("hero_quick_place_target");
+      if (quickCaption) quickCaption.value = s.caption || "";
+      if (quickPlace) quickPlace.value = String(s.place_index ?? "");
+      removeHeroSlide(idx);
+      setStatus("Slide listo para reemplazo. Selecciona la nueva imagen y pulsa 'Subir al carrusel'.");
+    };
+
+    window.removeHeroSlide = (idx) => {
+      state.data.hero_slides.splice(idx, 1);
+      renderHeroSlides();
+      refreshProgress();
+      markSectionDirty("sec-inicio");
+    };
+
+    function renderPlacesList() {
+      q("places_list").innerHTML = (state.data.places || []).map((p, i) => `
+        <div class="item">
+          <div>
+            <b>${esc(p.nombre || "Sin nombre")}</b>
+            <small>#${esc(p.num_atr || "-")} | ${esc(p.categoria || "-")}</small>
+          </div>
+          <button class="b-soft" onclick="selectPlace(${i})">Editar</button>
+        </div>
+      `).join("");
+      refreshPlaceTargets();
+    }
+
+    function refreshPlaceTargets() {
+      const options = (state.data.places || []).map((p, i) =>
+        `<option value="${i}">#${esc(p.num_atr || "-")} - ${esc(p.nombre || "Sin nombre")}</option>`
+      ).join("");
+      const placeholder = `<option value="">Selecciona un lugar turístico</option>`;
+      if (heroQuickPlaceTarget) {
+        heroQuickPlaceTarget.innerHTML = placeholder + options;
+      }
+      if (editorPlaceTarget) {
+        editorPlaceTarget.innerHTML = options;
+        if (state.currentPlace >= 0) editorPlaceTarget.value = String(state.currentPlace);
+      }
+      if (galleryPlaceTarget) {
+        galleryPlaceTarget.innerHTML = options;
+        if (state.currentPlace >= 0) galleryPlaceTarget.value = String(state.currentPlace);
+      }
+      if (pdfPlaceTarget) {
+        pdfPlaceTarget.innerHTML = options;
+        if (state.currentPlace >= 0) pdfPlaceTarget.value = String(state.currentPlace);
+      }
+    }
+
+    function getSelectedPlace(selectEl) {
+      if (!selectEl) return null;
+      const raw = selectEl.value;
+      if (raw === "") return null;
+      const idx = Number(raw);
+      if (!Number.isInteger(idx) || idx < 0 || !state.data.places[idx]) return null;
+      return { idx, place: state.data.places[idx] };
+    }
+
+    const placeFields = [
+      "num_atr","nombre","provincia","canton","parroquia","categoria","tipo","subtipo",
+      "jerarquia","estado","pdf","duracion","distancia","tiempo_auto","coordenadas","mini_foto","ruta","horario","costo","servicios","recomendaciones",
+      "resena","ubicacion_ref","mejor_visita","contacto"
+    ];
+
+    function placeInput(id) { return q("p_" + id); }
+
+    window.selectPlace = (idx) => {
+      state.currentPlace = idx;
+      const p = state.data.places[idx] || {};
+      placeFields.forEach(k => placeInput(k).value = p[k] || "");
+      refreshPlaceTargets();
+      renderPlaceImages();
+      setStatus(`Editando: ${p.nombre || "lugar"}`);
+      setActiveSection("#sec-editor");
+      refreshProgress();
+    };
+
+    function syncCurrentPlace(idx, statusLabel = "Lugar seleccionado") {
+      if (!Number.isInteger(idx) || idx < 0 || !state.data.places[idx]) return;
+      saveCurrentPlaceFromForm();
+      state.currentPlace = idx;
+      const p = state.data.places[idx] || {};
+      placeFields.forEach(k => placeInput(k).value = p[k] || "");
+      refreshPlaceTargets();
+      renderPlaceImages();
+      setStatus(`${statusLabel}: ${p.nombre || "lugar"}.`);
+      refreshProgress();
+    }
+
+    function saveCurrentPlaceFromForm() {
+      if (state.currentPlace < 0) return;
+      const p = state.data.places[state.currentPlace];
+      placeFields.forEach(k => p[k] = placeInput(k).value.trim());
+      if (!Array.isArray(p.images)) p.images = [];
+    }
+
+    function renderPlaceImages() {
+      const box = q("place_images");
+      if (state.currentPlace < 0) { box.innerHTML = ""; return; }
+      const p = state.data.places[state.currentPlace];
+      const imgs = p.images || [];
+      box.innerHTML = imgs.map((src, i) => `
+        <div class="th">
+          <img src="${encodeURI(String(src || ""))}" alt="foto">
+          <button class="b-red" onclick="removePlaceImage(${i})">Quitar</button>
+        </div>
+      `).join("");
+    }
+
+    window.removePlaceImage = (idx) => {
+      if (state.currentPlace < 0) return;
+      state.data.places[state.currentPlace].images.splice(idx, 1);
+      renderPlaceImages();
+      refreshProgress();
+      markSectionDirty("sec-galeria");
+    };
+
+    q("new_place").addEventListener("click", () => {
+      saveCurrentPlaceFromForm();
+      state.data.places.push({
+        num_atr: String(Date.now()),
+        nombre: "Nuevo lugar",
+        provincia: "CARCHI",
+        canton: "TULCAN",
+        parroquia: "",
+        categoria: "",
+        tipo: "",
+        subtipo: "",
+        jerarquia: "",
+        estado: "APROBADA",
+        pdf: "",
+        duracion: "",
+        distancia: "",
+        tiempo_auto: "",
+        coordenadas: "",
+        mini_foto: "",
+        ruta: "",
+        horario: "",
+        costo: "",
+        servicios: "",
+        recomendaciones: "",
+        resena: "",
+        ubicacion_ref: "",
+        mejor_visita: "",
+        contacto: "",
+        images: []
+      });
+      renderPlacesList();
+      selectPlace(state.data.places.length - 1);
+      setActiveSection("#sec-editor");
+      refreshProgress();
+      markSectionDirty("sec-editor");
+      markSectionDirty("sec-listado");
+    });
+
+    q("delete_place").addEventListener("click", () => {
+      if (state.currentPlace < 0) return;
+      state.data.places.splice(state.currentPlace, 1);
+      state.currentPlace = -1;
+      renderPlacesList();
+      placeFields.forEach(k => placeInput(k).value = "");
+      renderPlaceImages();
+      setStatus("Lugar eliminado.");
+      refreshProgress();
+      markSectionDirty("sec-galeria");
+      markSectionDirty("sec-editor");
+      markSectionDirty("sec-listado");
+    });
+
+    q("hero_quick_add_btn")?.addEventListener("click", async () => {
+      const selected = getSelectedPlace(heroQuickPlaceTarget);
+      const file = q("hero_quick_file")?.files?.[0];
+      const captionInput = q("hero_quick_caption");
+      const caption = String(captionInput?.value || "").trim();
+      if (!selected) {
+        setStatus("Selecciona un lugar turístico para el slide.", false);
+        return;
+      }
+      if (!file) {
+        setStatus("Selecciona una imagen para el slide.", false);
+        return;
+      }
+      setStatus("Subiendo imagen y creando slide...");
+      const r = await uploadFile(file);
+      if (!r.ok) {
+        setStatus("No se pudo subir la imagen del slide: " + (r.error || "error desconocido"), false);
+        return;
+      }
+      state.data.hero_slides.push({
+        image: r.path,
+        caption: caption || file.name,
+        place_index: selected.idx,
+        place_name: selected.place.nombre || ""
+      });
+      if (captionInput) captionInput.value = "";
+      if (q("hero_quick_file")) q("hero_quick_file").value = "";
+      if (heroQuickPlaceTarget) heroQuickPlaceTarget.value = "";
+      renderHeroSlides();
+      refreshProgress();
+      markSectionDirty("sec-inicio");
+      setStatus("Slide agregado correctamente. Guarda Inicio para publicarlo.");
+    });
+
+    q("place_upload_btn").addEventListener("click", async () => {
+      const targetIdx = galleryPlaceTarget ? Number(galleryPlaceTarget.value) : state.currentPlace;
+      if (targetIdx < 0 || !state.data.places[targetIdx]) {
+        setStatus("Selecciona un lugar destino para las fotos.", false);
+        return;
+      }
+      saveCurrentPlaceFromForm();
+      const files = [...q("place_upload").files];
+      if (!files.length) return;
+      setStatus("Subiendo fotos del lugar...");
+      const p = state.data.places[targetIdx];
+      if (!Array.isArray(p.images)) p.images = [];
+      for (const f of files) {
+        const r = await uploadFile(f);
+        if (r.ok) p.images.push(r.path);
+      }
+      q("place_upload").value = "";
+      if (targetIdx === state.currentPlace) renderPlaceImages();
+      setStatus(`Fotos subidas a: ${p.nombre || "lugar"}.`);
+      refreshProgress();
+      markSectionDirty("sec-galeria");
+    });
+
+    galleryPlaceTarget?.addEventListener("change", () => {
+      const selected = getSelectedPlace(galleryPlaceTarget);
+      if (!selected) return;
+      syncCurrentPlace(selected.idx, "Galería cargada");
+      if (editorPlaceTarget) editorPlaceTarget.value = String(selected.idx);
+      if (pdfPlaceTarget) pdfPlaceTarget.value = String(selected.idx);
+    });
+
+    pdfPlaceTarget?.addEventListener("change", () => {
+      const selected = getSelectedPlace(pdfPlaceTarget);
+      if (!selected) return;
+      syncCurrentPlace(selected.idx, "Lugar PDF seleccionado");
+      if (editorPlaceTarget) editorPlaceTarget.value = String(selected.idx);
+      if (galleryPlaceTarget) galleryPlaceTarget.value = String(selected.idx);
+    });
+
+    editorPlaceTarget?.addEventListener("change", () => {
+      const selected = getSelectedPlace(editorPlaceTarget);
+      if (!selected) return;
+      syncCurrentPlace(selected.idx, "Editando");
+      if (galleryPlaceTarget) galleryPlaceTarget.value = String(selected.idx);
+      if (pdfPlaceTarget) pdfPlaceTarget.value = String(selected.idx);
+    });
+
+    q("pdf_upload_btn").addEventListener("click", async () => {
+      const targetIdx = pdfPlaceTarget ? Number(pdfPlaceTarget.value) : state.currentPlace;
+      if (targetIdx < 0 || !state.data.places[targetIdx]) {
+        setStatus("Selecciona un lugar destino para el PDF.", false);
+        return;
+      }
+      const file = q("pdf_upload").files[0];
+      if (!file) {
+        setStatus("Selecciona un archivo PDF antes de subir.", false);
+        return;
+      }
+      if (!file.name.toLowerCase().endsWith(".pdf")) {
+        setStatus("Selecciona un archivo PDF valido.", false);
+        return;
+      }
+      setStatus("Subiendo PDF...");
+      const r = await uploadFile(file);
+      if (!r.ok) {
+        setStatus("No se pudo subir PDF: " + (r.error || "error desconocido"), false);
+        return;
+      }
+      const p = state.data.places[targetIdx];
+      p.pdf = r.path;
+      if (targetIdx === state.currentPlace) placeInput("pdf").value = r.path;
+      q("pdf_upload").value = "";
+      setStatus(`PDF asignado a: ${p.nombre || "lugar"}.`);
+      refreshProgress();
+      markSectionDirty("sec-galeria");
+      markSectionDirty("sec-editor");
+    });
+
+    if (addServiceBtn) {
+      addServiceBtn.addEventListener("click", () => {
+        servicesDraft.push(normalizeService({ title: "Nuevo servicio" }));
+        renderServicesEditor();
+        syncServicesTextarea();
+        markSectionDirty("sec-servicios");
+      });
+    }
+
+    if (servicesEditor) {
+      servicesEditor.addEventListener("input", (e) => {
+        const card = e.target.closest(".svc-card");
+        if (!card) return;
+        const idx = Number(card.getAttribute("data-svc-idx"));
+        if (!servicesDraft[idx]) return;
+        const field = e.target.getAttribute("data-field");
+        const itemField = e.target.getAttribute("data-svc-item-field");
+        if (itemField) {
+          syncServiceItemsFromCard(card, idx);
+          syncServicesTextarea();
+          markSectionDirty("sec-servicios");
+          return;
+        }
+        if (!field) return;
+        {
+          servicesDraft[idx][field] = e.target.value;
+        }
+        syncServicesTextarea();
+        markSectionDirty("sec-servicios");
+      });
+      servicesEditor.addEventListener("click", async (e) => {
+        const btn = e.target.closest("[data-action]");
+        const addItemBtn = e.target.closest("[data-svc-item-add]");
+        const uploadItemBtn = e.target.closest("[data-svc-item-upload]");
+        const removeItemBtn = e.target.closest("[data-svc-item-remove]");
+        if (addItemBtn) {
+          const card = addItemBtn.closest(".svc-card");
+          if (!card) return;
+          const idx = Number(card.getAttribute("data-svc-idx"));
+          if (!servicesDraft[idx]) return;
+          servicesDraft[idx].items = [...(servicesDraft[idx].items || []), ""];
+          renderServicesEditor();
+          syncServicesTextarea();
+          markSectionDirty("sec-servicios");
+          return;
+        }
+        if (uploadItemBtn) {
+          const card = uploadItemBtn.closest(".svc-card");
+          if (!card) return;
+          const idx = Number(card.getAttribute("data-svc-idx"));
+          const itemIdx = Number(uploadItemBtn.getAttribute("data-svc-item-upload"));
+          if (!servicesDraft[idx]) return;
+          const row = uploadItemBtn.closest("[data-svc-item-row]");
+          const fileInput = row?.querySelector(`[data-svc-item-file="${itemIdx}"]`);
+          const pathInput = row?.querySelector('[data-svc-item-field="phone"]');
+          const file = fileInput?.files?.[0];
+          if (!file) {
+            setStatus("Selecciona una imagen para este plato o servicio.", false);
+            return;
+          }
+          setStatus("Subiendo imagen del servicio...");
+          const r = await uploadFile(file);
+          if (!r.ok) {
+            setStatus("No se pudo subir la imagen: " + (r.error || "error desconocido"), false);
+            return;
+          }
+          if (pathInput) pathInput.value = r.path;
+          if (fileInput) fileInput.value = "";
+          syncServiceItemsFromCard(card, idx);
+          syncServicesTextarea();
+          markSectionDirty("sec-servicios");
+          setStatus("Imagen del servicio subida. Recuerda guardar Servicios.");
+          return;
+        }
+        if (removeItemBtn) {
+          const card = removeItemBtn.closest(".svc-card");
+          if (!card) return;
+          const idx = Number(card.getAttribute("data-svc-idx"));
+          const itemIdx = Number(removeItemBtn.getAttribute("data-svc-item-remove"));
+          if (!servicesDraft[idx]) return;
+          servicesDraft[idx].items = (servicesDraft[idx].items || []).filter((_, n) => n !== itemIdx);
+          renderServicesEditor();
+          syncServicesTextarea();
+          markSectionDirty("sec-servicios");
+          return;
+        }
+        if (!btn) return;
+        const card = btn.closest(".svc-card");
+        if (!card) return;
+        const idx = Number(card.getAttribute("data-svc-idx"));
+        if (btn.getAttribute("data-action") === "remove") {
+          servicesDraft.splice(idx, 1);
+          renderServicesEditor();
+          syncServicesTextarea();
+          markSectionDirty("sec-servicios");
+        }
+      });
+    }
+
+    const editorTabs = qa("[data-editor-tab]");
+    const editorPanels = qa("[data-editor-panel]");
+    function setEditorTab(name) {
+      editorTabs.forEach((btn) => btn.classList.toggle("active", btn.getAttribute("data-editor-tab") === name));
+      editorPanels.forEach((panel) => panel.classList.toggle("active", panel.getAttribute("data-editor-panel") === name));
+    }
+    editorTabs.forEach((btn) => {
+      btn.addEventListener("click", () => setEditorTab(btn.getAttribute("data-editor-tab")));
+    });
+
+    q("save_general")?.addEventListener("click", async () => {
+      await persistSection("General", ["sec-general"]);
+    });
+    q("save_services")?.addEventListener("click", async () => {
+      await persistSection("Servicios", ["sec-servicios"]);
+    });
+    q("save_inicio")?.addEventListener("click", async () => {
+      await persistSection("Inicio", ["sec-inicio"]);
+    });
+    q("save_editor")?.addEventListener("click", async () => {
+      await persistSection("Lugar", ["sec-editor", "sec-listado"]);
+    });
+    q("save_galeria")?.addEventListener("click", async () => {
+      await persistSection("Galería", ["sec-galeria", "sec-editor"]);
+    });
+
+    async function init() {
+      const loader = q("adminLoader");
+      const hideLoader = () => { if (loader) loader.classList.add("hidden"); };
+      const toast = q("sessionToast");
+
+      const logoutBtn = q("logoutBtn");
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+          document.cookie = "portal_admin=; Path=/; Max-Age=0";
+          location.href = "/login.html";
+        });
+      }
+
+      try {
+        state.data = await apiGetContent();
+        if (!state.data.site) state.data.site = {};
+        if (!Array.isArray(state.data.hero_slides)) state.data.hero_slides = [];
+        if (!Array.isArray(state.data.places)) state.data.places = [];
+        lastSavedData = cloneData(state.data);
+        setEditorTab("datos");
+        loadSiteToForm();
+        renderHeroSlides();
+        renderPlacesList();
+        if (state.data.places.length) selectPlace(0);
+        else setStatus("Panel listo. Crea tu primer lugar turístico.");
+        initSidebarActiveTracking();
+        refreshProgress();
+        if (toast) {
+          toast.classList.add("show");
+          setTimeout(() => toast.classList.remove("show"), 2500);
+        }
+      } catch (e) {
+        setStatus("No se pudo cargar contenido: " + e.message, false);
+      } finally {
+        hideLoader();
+      }
+    }
+
+    qa(".section-save .hint").forEach((hint) => {
+      hint.setAttribute("data-base-hint", hint.textContent);
+    });
+    refreshDirtyUI();
+
+    document.addEventListener("input", (e) => {
+      const t = e.target;
+      if (!(t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement)) return;
+      refreshProgress();
+      const sectionId = getSectionFromNode(t);
+      if (sectionId) markSectionDirty(sectionId);
+    });
+
+    document.addEventListener("change", (e) => {
+      const t = e.target;
+      if (!(t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement)) return;
+      const sectionId = getSectionFromNode(t);
+      if (sectionId) markSectionDirty(sectionId);
+    });
+
+    window.addEventListener("beforeunload", (e) => {
+      if (!dirtySections.size) return;
+      e.preventDefault();
+      e.returnValue = "";
+    });
+
+    init();
+  </script>
+</body>
+</html>

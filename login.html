@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login Admin | Portal Tulcán</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --green: #1f6f3e;
+      --yellow: #f2c318;
+      --red: #c62828;
+      --display-font: "Georgia", "Times New Roman", serif;
+      --body-font: "Poppins", "Segoe UI", sans-serif;
+      --ink: #1f2b24;
+      --line: #d9ddd9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: var(--body-font);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(31,111,62,.12), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(242,195,24,.12), transparent 22%),
+        linear-gradient(180deg, #eef3ef 0%, #e7efe9 100%);
+    }
+    .card {
+      width: min(480px, 92vw);
+      background: rgba(255,255,255,.96);
+      border: 2px solid var(--line);
+      border-left: 8px solid var(--yellow);
+      border-top: 8px solid var(--green);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 20px 36px rgba(0,0,0,.12);
+      display: grid;
+      gap: 14px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      font-weight: 900;
+      color: var(--green);
+      font-size: 1.2rem;
+      font-family: var(--display-font);
+    }
+    .brand i { background: var(--green); color: #fff; width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; box-shadow: 0 10px 18px rgba(31,111,62,.18); }
+    h1 { margin: 0; font-size: 1.35rem; font-family: var(--display-font); font-weight: 700; color: var(--green); }
+    p { margin: 0; color: #4b5a52; font-size: .92rem; line-height: 1.55; }
+    .field { text-align: left; display: grid; gap: 6px; }
+    label { font-size: .85rem; font-weight: 700; }
+    input {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid #cbd5cf;
+      border-radius: 12px;
+      font: inherit;
+      outline: none;
+      transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+    input:focus {
+      border-color: #6da082;
+      box-shadow: 0 0 0 4px rgba(31,111,62,.14);
+      transform: translateY(-1px);
+    }
+    input:focus-visible,
+    .btn:focus-visible {
+      outline: 3px solid rgba(31,111,62,.2);
+      outline-offset: 3px;
+    }
+    .btns { display: flex; gap: 10px; justify-content: center; }
+    .btn {
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 15px;
+      font-weight: 800;
+      cursor: pointer;
+      background: #fff;
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: #ecf8f0;
+      border-left: 6px solid var(--green);
+      border-top: 6px solid var(--green);
+      color: var(--green);
+      box-shadow: 0 10px 18px rgba(31,111,62,.12);
+    }
+    .btn-cancel {
+      background: #fff7d4;
+      border-left: 6px solid var(--yellow);
+      border-top: 6px solid var(--yellow);
+      color: #6f5600;
+      box-shadow: 0 10px 18px rgba(242,195,24,.12);
+    }
+    .status { min-height: 20px; font-size: .85rem; color: var(--red); }
+    @media (max-width: 520px) {
+      .card { padding: 18px; border-radius: 18px; }
+      .btns { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <form class="card" id="loginForm">
+    <div class="brand"><i class="bi bi-shield-lock-fill"></i>Portal Admin</div>
+    <h1>Acceso Administrador</h1>
+    <p>Ingresa tus credenciales para administrar el portal.</p>
+    <div class="field">
+      <label>Usuario</label>
+      <input id="user" type="text" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label>Clave</label>
+      <input id="pass" type="password" autocomplete="current-password" required>
+    </div>
+    <div class="btns">
+      <button class="btn btn-primary" type="submit"><i class="bi bi-box-arrow-in-right"></i>Acceder</button>
+      <a class="btn btn-cancel" href="/index.html"><i class="bi bi-house-door-fill"></i>Salir</a>
+    </div>
+    <div class="status" id="status"></div>
+  </form>
+  <script>
+    const form = document.getElementById("loginForm");
+    const statusEl = document.getElementById("status");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      statusEl.textContent = "";
+      const user = document.getElementById("user").value.trim();
+      const pass = document.getElementById("pass").value.trim();
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user, pass })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          location.href = "/admin.html";
+        } else {
+          statusEl.textContent = data.error || "Credenciales incorrectas.";
+        }
+      } catch (err) {
+        statusEl.textContent = "No se pudo conectar con el servidor.";
+      }
+    });
+  </script>
+</body>
+</html>
